@@ -1,0 +1,24 @@
+a {
+	color: #e8554e;
+
+	&:visited {
+		color: #e8554e;
+	}
+	&:hover,
+	&:focus,
+	&:active {
+		color: #443f3f;
+		text-decoration: none;
+		-webkit-transition: all 0.3s ease-in-out;
+		-moz-transition:  all 0.3s ease-in-out;
+		-o-transition:  all 0.3s ease-in-out;
+		transition: all 0.3s ease-in-out;
+	}
+	&:focus {
+		outline: thin dotted;
+	}
+	&:hover,
+	&:active {
+		outline: 0;
+	}
+}

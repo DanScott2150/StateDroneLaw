@@ -1,0 +1,98 @@
+.state-info{
+  border: 1px solid #000;
+  background: white;
+}
+
+.state-info h1{
+  background: $color__darkblue;
+  color: #fff;
+  text-shadow: 2px 2px 4px #000000;
+  margin: 0;
+  text-align: center;
+}
+
+.state-introtext{
+  color: $color__darkblue;
+  line-height: 1.25em;
+}
+
+.state-introtext h1{
+  font-size:48px;
+  color: $color__darkgray;
+  background: none;
+}
+
+.cta-text{
+  line-height:1;
+}
+
+.cta-email, .cta-state{
+  padding: 8px 16px;
+  color: #555;
+  vertical-align: middle;
+}
+
+.cta-submit{
+  color: #000;
+  background: #fff;
+  border-color: #d9d9d9;
+}
+
+.map-credit{
+  font-size: 10px;
+  margin-bottom: 10px;
+  margin-top: 5px;
+  font-style: italic;
+}
+
+.state-laws{
+  border-bottom: 1px solid #000;
+}
+
+.currentlaws, .pendinglaws, .othernotes{
+  background: #ffffe5;
+}
+
+.law-content{
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-top: 1px dotted #000;
+}
+
+.law-heading{
+  background: $color__lightgray;
+  font-weight: bold;
+}
+
+.law-heading h3{
+  font-size: 120%;
+  margin-bottom: 0;
+}
+
+.law-footer{
+  font-size: 0.9em;
+  font-weight: bold;
+}
+.law-info ul{
+  margin-bottom: 0;
+  padding: 0;
+  margin-left: 20px;
+}
+
+.law-info p{
+  text-align: justify;
+  line-height: normal;
+}
+
+.law-date{
+  font-style: italic;
+  font-weight: normal;
+  font-size: 80%;
+  line-height: 1;
+  padding-top: 5px;
+}
+
+#map{
+    width: 100%;
+    height: 400px;
+  }

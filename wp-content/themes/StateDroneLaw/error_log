@@ -1,0 +1,16 @@
+[26-Jun-2018 21:33:23 America/Chicago] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home1/nqvdavmy/public_html/wp-content/themes/StateDroneLaw/index.php:15
+Stack trace:
+#0 {main}
+  thrown in /home1/nqvdavmy/public_html/wp-content/themes/StateDroneLaw/index.php on line 15
+[26-Jun-2018 21:33:24 America/Chicago] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home1/nqvdavmy/public_html/wp-content/themes/StateDroneLaw/index.php:15
+Stack trace:
+#0 {main}
+  thrown in /home1/nqvdavmy/public_html/wp-content/themes/StateDroneLaw/index.php on line 15
+[26-Jun-2018 21:34:01 America/Chicago] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home1/nqvdavmy/public_html/wp-content/themes/StateDroneLaw/index.php:15
+Stack trace:
+#0 {main}
+  thrown in /home1/nqvdavmy/public_html/wp-content/themes/StateDroneLaw/index.php on line 15
+[26-Jun-2018 21:34:02 America/Chicago] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home1/nqvdavmy/public_html/wp-content/themes/StateDroneLaw/index.php:15
+Stack trace:
+#0 {main}
+  thrown in /home1/nqvdavmy/public_html/wp-content/themes/StateDroneLaw/index.php on line 15

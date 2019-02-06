@@ -1,0 +1,25 @@
+
+.promobox{
+  background: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 3px rgba(1,1,1,0.16);
+  border-radius: 5px;
+  font-size: 85%;
+  overflow: hidden;
+}
+
+.promobox p{
+  text-align: center;
+      font-weight: bold;
+      font-size: 0.9em;
+}
+
+
+
+@media (max-width: 768px){
+
+  .promobox img{
+    display: none;
+  }
+
+}

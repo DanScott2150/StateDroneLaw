@@ -1,0 +1,341 @@
+/*!
+Theme Name: StateDroneLaw
+Theme URI: http://underscores.me/
+Author: Dan Scott
+Author URI: http://underscores.me/
+Description: Description
+Version: 1.0.0
+License: GNU General Public License v2 or later
+License URI: LICENSE
+Text Domain: statedronelaw
+Tags: custom-background, custom-logo, custom-menu, featured-images, threaded-comments, translation-ready
+
+This theme, like WordPress, is licensed under the GPL.
+Use it to make something cool, have fun, and share what you've learned with others.
+
+StateDroneLaw is based on Underscores https://underscores.me/, (C) 2012-2017 Automattic, Inc.
+Underscores is distributed under the terms of the GNU GPL v2 or later.
+
+Normalizing styles have been helped along thanks to the fine work of
+Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
+*/
+
+/*--------------------------------------------------------------
+>>> TABLE OF CONTENTS:
+----------------------------------------------------------------
+# Normalize
+# Typography
+# Elements
+# Forms
+# Navigation
+	## Links
+	## Menus
+# Accessibility
+# Alignments
+# Clearings
+# Widgets
+# Content
+	## Posts and pages
+	## Comments
+# Infinite scroll
+# Media
+	## Captions
+	## Galleries
+--------------------------------------------------------------*/
+
+/* BOOTSTRAP INCLUDE */
+@import "assets/bootstrap/css/bootstrap.css";
+
+/* SASS variables & mixins */
+@import "variables-site/variables-site";
+@import "mixins/mixins-master";
+
+/* CSS normalize/reset */
+@import "normalize";
+
+/* Navigation */
+@import "navigation";
+
+/* Default underscores imports */
+@import "modules/accessibility";
+@import "modules/alignments";
+@import "modules/clearings";
+@import "modules/infinite-scroll";
+
+
+@import "responsivetabs";   //Custom styling for responsive tabs plugin
+
+@import "sidebar";
+@import "breadcrumbs";
+@import "nav";
+@import "footer";
+@import "statepage";
+@import "frontpage";
+@import "promobox";
+@import "blog";
+
+
+body{
+  // font-family: 'Roboto', sans-serif;
+  background-image: url('/wp-content/uploads/2018/03/content_background_tile.png');
+}
+
+a{
+  color: $color__red;
+}
+
+.site-header a{
+  color: white;
+}
+
+p.explainertext{
+  text-align: center;
+  color: $color__darkblue;
+  line-height: 1.25em;
+  padding: 5px 5px 25px;
+  margin-bottom: 0;
+}
+
+.entry-footer{
+  border:1px solid #000;
+  width: 100%;
+  background: $color__lightgray;
+}
+
+
+.us-map {
+    display: block;
+    width: 100%;
+    // max-width: 959px;
+    margin: 0 auto;
+}
+
+.state {
+    fill: #D3D3D3;
+    cursor: pointer;
+}
+
+.state:hover {
+    fill: #6dbcdb;
+}
+
+.browse_grid_state{
+  display:inline-block;
+  background: #fff;
+  border: 1px solid #000;
+  margin: 10px;
+  padding: 10px;
+}
+
+.browse_grid_flex {
+  width: 80%;
+}
+
+.browse_grid_flex:hover{
+  background: #D3D3D3;
+}
+
+.state_updated{
+  display: block;
+  font-size: 14px;
+}
+
+@media (min-width: 992px){
+
+  .browse_grid_flex {
+    width: 30%;
+  }
+}
+
+@media (max-width: 991px) and (min-width: 768px){
+
+  .browse_grid_flex{
+      width: 40%;
+    }
+
+}
+
+.browse_grid_state h4{
+  margin-bottom:10px;
+  font-size: 18px;
+  font-family: inherit;
+  font-weight:500;
+  line-height:1.1;
+  color: #e8554e;
+  font-weight: 600;
+}
+
+
+
+.state_link{
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+  display: inline-block;
+  margin-bottom: 10px;
+  font-weight: 400;
+  text-align: center;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  border-radius: 4px;
+}
+
+.state_link a{
+  color: #fff;
+  text-decoration: none;
+}
+
+.state_meta_wrapper{
+  width: 90%;
+  margin: 0 auto 10px auto;
+}
+
+.state_meta_fields{
+  display:inline-block;
+  font-size: 12px;
+  margin-left: 15px;
+  font-weight: bold;
+}
+
+.us-map{
+
+}
+
+a.state_link{
+  color: white;
+}
+
+
+#subscribe_cta h3 {
+    text-align: center;
+    font-weight: 600;
+}
+
+div#subscribe_cta {
+    width: 95%;
+    margin: 0 auto;
+    padding: 5px;
+}
+
+div#cta_text {
+    width: 60%;
+    display: inline-block;
+    text-align: center;
+    padding: 10px;
+    line-height: 1.2;
+    vertical-align: top;
+    font-size:16px;
+}
+
+div#cta_form {
+    display: inline-block;
+    width: 35%;
+    margin-left:20px;
+}
+
+.mc4wp-form-theme{
+  margin-top:0;
+}
+
+.mc4wp-form-fields p{
+  margin-bottom: 5px;
+}
+
+.mc4wp-form-theme input[type=submit]{
+  width: 100%!important;
+}
+
+@media (max-width: 992px){
+  div#subscribe_cta {
+      width: 100%
+  }
+
+  div#cta_text {
+      width: 85%;
+      max-width: 480px;
+      display: block;
+      margin: 0 auto;
+  }
+
+  div#cta_form {
+      display: block;
+      width: 85%;
+      margin: 0 auto;
+  }
+
+  #subscribe_cta h3.spacer{
+    display: none;
+  }
+
+  .mc4wp-form-theme{
+    max-width: 480px;
+    margin: 0 auto!important;
+  }
+}
+
+form#mc4wp-form-1 label {
+    text-align: left;
+  }
+
+select {
+    display: block;
+  }
+
+  .mc4wp-form-fields label{
+    width: 100%;
+  }
+
+  .mc4wp-form-fields input{
+    width: 100%;
+  }
+
+  .mc4wp-form-fields select{
+    width: 100%;
+  }
+
+.browsepage h1{
+  background: $color__darkblue;
+  color: #fff;
+  text-shadow: 2px 2px 4px #000000;
+  margin: 0;
+  text-align: center;
+  font-size: 32px;
+}
+
+.ui-menu .ui-menu-item{
+  padding: 5px;
+  margin: 10px;
+  border-bottom: 1px solid #D8D8D8;
+  width: 100%;
+}
+
+.ui-widget.ui-widget-content {
+  border: 5px solid rgb(120, 195, 251)!important;
+  color: rgb(20, 104, 169);
+  background: #fff;
+  width: auto;
+  font-weight: normal;
+  font-family: Open Sans;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.wpcf7-form label{
+  font-weight: bold;
+}
+
+nav.post-navigation{
+  background: $color__darkblue;
+}
+
+.nav-links a{
+  color: white;
+
+}

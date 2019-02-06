@@ -1,0 +1,90 @@
+.breadcrumbs{
+      background: #f9f9f9;
+      box-shadow: 0 0 3px rgba(1,1,1,0.16);
+      border-radius: 5px;
+      font-size: 85%;
+      overflow: hidden;
+      display: flex;
+}
+
+.breadcrumbs ul{
+  list-style: none;
+  overflow: hidden;
+}
+
+.breadcrumbs ul li{
+  float: left;
+}
+
+.breadcrumbs ul li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 0 10px 45px;
+    padding-left: 45px;
+    background: rgba(44,62,80,1);
+    position: relative;
+    display: block;
+    float: left;
+    transition: none;
+    height: 100%;
+}
+
+.breadcrumbs ul li:first-child a {
+    padding-left: 10px;
+}
+
+.breadcrumbs li:nth-child(2) a {
+    background: rgba(44,62,80,0.8);
+}
+
+.breadcrumbs ul li:last-child a {
+    background: transparent !important;
+    color: black;
+    pointer-events: none;
+    cursor: default;
+}
+
+.breadcrumbs ul li a::before {
+    content: " ";
+    display: block;
+    width: 0;
+    height: 0;
+    border-top: 50px solid transparent;
+    border-bottom: 50px solid transparent;
+    border-left: 30px solid #f9f9f9;
+    position: absolute;
+    top: 50%;
+    margin-top: -50px;
+    margin-left: 1px;
+    left: 100%;
+    z-index: 1;
+}
+
+.breadcrumbs ul li a::after {
+    content: " ";
+    display: block;
+    width: 0;
+    height: 0;
+    border-top: 50px solid transparent;
+    border-bottom: 50px solid transparent;
+    border-left: 30px solid rgba(44,62,80,1);
+    position: absolute;
+    top: 50%;
+    margin-top: -50px;
+    left: 100%;
+    z-index: 2;
+}
+
+.breadcrumbs ul li:last-child a::after {
+    border: 0;
+}
+
+.breadcrumbs ul li:nth-child(2) a::after {
+    border-left-color: rgba(44,62,80,0.8);
+}
+
+@media (max-width: 576px){
+  // .breadcrumbs{
+  //   display: none;
+  // }
+}
