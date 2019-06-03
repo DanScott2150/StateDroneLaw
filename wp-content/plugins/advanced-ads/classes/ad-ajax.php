@@ -11,6 +11,8 @@ class Advanced_Ads_Ajax {
 	{
 		add_action( 'wp_ajax_advads_ad_select', array( $this, 'advads_ajax_ad_select' ) );
 		add_action( 'wp_ajax_nopriv_advads_ad_select', array( $this, 'advads_ajax_ad_select' ) );
+		add_action( 'wp_ajax_advads-ad-health-notice-push', array( $this, 'ad_health_notice_push' ) );
+		add_action( 'wp_ajax_nopriv_advads-ad-health-notice-push', array( $this, 'ad_health_notice_push' ) );
 	}
 
 	private static $instance;
@@ -106,5 +108,29 @@ class Advanced_Ads_Ajax {
 			// report error
 			return array( 'status' => 'error', 'message' => 'No valid ID or METHOD found.' );
 		}
+	}
+
+	/**
+	 * Push an Ad Health notice to the queue in the backend
+	 */
+	public function ad_health_notice_push(){
+		
+		check_ajax_referer( 'advanced-ads-ad-health-ajax-nonce', 'nonce' );
+		
+		if ( ! current_user_can( Advanced_Ads_Plugin::user_cap( 'advanced_ads_edit_ads') ) ) {
+			return;
+		}
+		
+		$key = ( !empty( $_REQUEST['key'] ) ) ? esc_attr( $_REQUEST['key'] ) : false;
+		$attr = ( !empty( $_REQUEST['attr'] ) && is_array( $_REQUEST['attr'] ) ) ? $_REQUEST['attr'] : array();
+		
+		// update or new entry?
+		if( isset( $attr['mode'] ) && 'update' === $attr['mode'] ){
+			Advanced_Ads_Ad_Health_Notices::get_instance()->update( $key, $attr );
+		} else {
+			Advanced_Ads_Ad_Health_Notices::get_instance()->add( $key, $attr );
+		}	    
+		
+		die();
 	}
 }

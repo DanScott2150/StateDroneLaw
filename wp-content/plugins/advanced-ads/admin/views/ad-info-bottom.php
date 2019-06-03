@@ -26,3 +26,11 @@ if ( $this->start_wizard_automatically() ) :
 <script>jQuery( document ).ready(function ($) { advads_wizard.start() });</script>
 	<?php
 endif;
+
+/**
+ * Support and review box
+ */
+if( ! Advanced_Ads_Plugin::any_activated_add_on() ) :
+    include ADVADS_BASE_PATH . 'admin/views/support-callout.php';
+    ?><script>jQuery( document ).ready(function () { jQuery( '#advads-support-callout').insertAfter( '#ad-main-box' ); });</script>
+<?php endif;

@@ -31,6 +31,12 @@ jQuery( document ).ready(function ($) {
 		});
 	};
 
+    $( document ).on( 'click', '#switch-to-adsense-type', function( ev ) {
+        ev.preventDefault();
+        $( '#advanced-ad-type-adsense' ).trigger( 'click' );
+        $( this ).closest( 'li' ).addClass( 'hidden' );
+    } );
+    
 	$( document ).on('change', '#advanced-ad-type input', function () {
 		var ad_type = $( this ).val()
 		advads_load_ad_type_parameter_metabox( ad_type );
@@ -636,6 +642,8 @@ jQuery( document ).ready(function ($) {
 	if ( ad_content && ad_content.indexOf( 'enable_page_level_ads' ) !== -1 ) {
 		advads_show_adsense_auto_ads_warning();
 	}
+
+	advads_ads_txt_find_issues();
 });
 
 
@@ -845,6 +853,51 @@ function advads_show_adsense_auto_ads_warning() {
 			$msg.show();
 		} );
 	});
+}
+
+/**
+ * Check if a third-party ads.txt file exists.
+ */
+function advads_ads_txt_find_issues() {
+	var $wrapper = jQuery( '#advads-ads-txt-notice-wrapper' );
+	var $refresh = jQuery( '#advads-ads-txt-notice-refresh' );
+
+	if ( ! $wrapper.length ) {
+		return;
+	}
+
+	if ( ! $wrapper.find( 'ul' ).length ) {
+		load();
+	}
+
+	$refresh.click( function() {
+		load();
+	} );
+
+	function load() {
+		$wrapper.empty().append( jQuery( '<span class="spinner advads-spinner"></span>' ) );
+		$refresh.hide();
+
+		jQuery.ajax( {
+			type: 'POST',
+			url: ajaxurl,
+			dataType: 'html',
+			data: {
+				action: 'advads-ads-txt',
+				nonce: advadsglobal.ajax_nonce
+			},
+		} ).done(function( response ) {
+			$wrapper.html( response );
+			$refresh.show();
+		} ).fail(function( jqXHR ) {
+			$wrapper.html( '<p class="advads-error-message">'
+				+ jQuery( '#advads-ads-txt-notice-error' ).text().replace( '%s', parseInt( jqXHR.status, 10 ) ),
+				+ '</p>'
+			);
+			$refresh.show();
+		} );
+	}
+
 }
 
 // Change JQueryUI names to fix name collision with other libraries, eg. Bootstrap

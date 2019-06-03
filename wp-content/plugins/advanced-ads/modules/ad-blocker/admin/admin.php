@@ -306,7 +306,7 @@ class Advanced_Ads_Ad_Blocker_Admin
 		}
 		// successful result, save options and rewrite previous error options
 		update_option( ADVADS_AB_SLUG, $new_options);
-		Advanced_Ads_Admin_Notices::get_instance()->remove_from_queue( 'assets_expired' );
+		Advanced_Ads_Ad_Health_Notices::get_instance()->remove( 'assets_expired' );
 	}
 
 	/**

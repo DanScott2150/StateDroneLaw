@@ -117,6 +117,7 @@ class Advanced_Ads_Plugin {
 		Advanced_Ads_Display_Conditions::get_instance();
 		new Advanced_Ads_Frontend_Checks;
 		new Advanced_Ads_Compatibility;
+		Advanced_Ads_Ad_Health_Notices::get_instance(); // load to fetch notices
 	}
 
 	/**
@@ -708,7 +709,14 @@ class Advanced_Ads_Plugin {
 	 */
 	static function support_url( $utm = '' ){
 	    
-		return self::any_activated_add_on() ? ADVADS_URL . 'support/' .$utm :  'https://wordpress.org/support/plugin/advanced-ads#new-post';
+		// return self::any_activated_add_on() ? ADVADS_URL . 'support/' .$utm :  'https://wordpress.org/support/plugin/advanced-ads#new-post';
+		// $utm = empty( $utm ) ? '#utm_source=advanced-ads&utm_medium=link&utm_campaign=disable-support' : $utm;
+		if( self::any_activated_add_on() ){
+			$url = ADVADS_URL . 'support/' .$utm . '-with-addons';
+		} else {
+			$url = ADVADS_URL . 'support/' .$utm . '-free-user';
+		}
+		return $url;
 	}
 
 }

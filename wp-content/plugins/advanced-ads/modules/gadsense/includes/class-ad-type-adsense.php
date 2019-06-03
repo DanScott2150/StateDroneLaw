@@ -56,7 +56,7 @@ class Advanced_Ads_Ad_Type_Adsense extends Advanced_Ads_Ad_Type_Abstract {
 		$unit_id = '';
 		$unit_pubid = '';
 		$unit_code = '';
-		$unit_type = '';
+		$unit_type = 'responsive';
 		$unit_width = 0;
 		$unit_height = 0;
 		$json_content = '';
@@ -72,7 +72,7 @@ class Advanced_Ads_Ad_Type_Adsense extends Advanced_Ads_Ad_Type_Abstract {
 
 		// check pub_id for errors
 		$pub_id_errors = false;
-		if( $pub_id !== '' && 0 !== strpos( $pub_id, 'pub-' )){
+		if( $pub_id !== '' && 0 !== strpos( $pub_id, 'pub-' ) ){
 			$pub_id_errors = __( 'The Publisher ID has an incorrect format. (must start with "pub-")', 'advanced-ads' );
 		}
 
@@ -227,6 +227,18 @@ class Advanced_Ads_Ad_Type_Adsense extends Advanced_Ads_Ad_Type_Abstract {
 		return $output;
 	}
 
+    /**
+     * Check if a string looks like an AdSense ad code.
+     * 
+     * @param string $content The string that need to be checked.
+     * 
+     * @return boolean 
+     */
+    public static function content_is_adsense( $content = '' ) {
+        return false !== stripos( $content, 'googlesyndication.com' ) &&
+                ( false !== stripos( $content, 'google_ad_client' ) || false !== stripos( $content, 'data-ad-client' ) );
+    }
+    
 	protected function append_defaut_responsive_content(&$output, $pub_id, $content) {
 		$format = '';
 		$style = 'display:block;';

@@ -1,10 +1,9 @@
 html {
 	font-family: sans-serif;
 	-webkit-text-size-adjust: 100%;
-	-ms-text-size-adjust:     100%;
+	-ms-text-size-adjust: 100%;
 	box-sizing: border-box;
 }
-
 
 *,
 *:before,
@@ -14,34 +13,6 @@ html {
 
 body {
 	margin: 0;
-}
-
-article,
-aside,
-details,
-figcaption,
-figure,
-footer,
-header,
-main,
-menu,
-nav,
-section,
-summary {
-	display: block;
-}
-
-audio,
-canvas,
-progress,
-video {
-	display: inline-block;
-	vertical-align: baseline;
-}
-
-audio:not([controls]) {
-	display: none;
-	height: 0;
 }
 
 [hidden],
@@ -58,27 +29,15 @@ a:hover {
 	outline: 0;
 }
 
-abbr[title] {
-	border-bottom: 1px dotted;
-}
-
 b,
 strong {
 	font-weight: bold;
 }
 
-dfn {
-	font-style: italic;
-}
 
 h1 {
 	font-size: 2em;
 	margin: 0.67em 0;
-}
-
-mark {
-	background: #ff0;
-	color: #000;
 }
 
 small {
@@ -111,25 +70,9 @@ svg:not(:root) {
 	overflow: hidden;
 }
 
-figure {
-	margin: 1em 40px;
-}
-
 hr {
 	box-sizing: content-box;
 	height: 0;
-}
-
-pre {
-	overflow: auto;
-}
-
-code,
-kbd,
-pre,
-samp {
-	font-family: monospace, monospace;
-	font-size: 1em;
 }
 
 button,
@@ -196,11 +139,6 @@ fieldset {
 	padding: 0.35em 0.625em 0.75em;
 }
 
-legend {
-	border: 0;
-	padding: 0;
-}
-
 textarea {
 	overflow: auto;
 }
@@ -219,11 +157,9 @@ th {
 	padding: 0;
 }
 
-
 p{
   margin-bottom: 0;
 }
-
 
 h1, h2, h3, h4, h5, h6 {
 	clear: both;

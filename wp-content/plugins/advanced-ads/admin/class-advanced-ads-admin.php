@@ -106,9 +106,11 @@ class Advanced_Ads_Admin {
 		// update placements.
 		add_action( 'admin_init', array( 'Advanced_Ads_Placements', 'update_placements' ) );
 
-		// check for update logic.
-		add_action( 'admin_notices', array( $this, 'admin_notices' ) );
-
+		// add Advanced Ads admin notices
+		// removes admin notices from other plugins
+		// `in_admin_header` is the last hook to run before àdmin_notices` according to https://codex.wordpress.org/Plugin_API/Action_Reference
+		add_action( 'in_admin_header', array( $this, 'register_admin_notices' ) );
+		
 		// add links to plugin page.
 		add_filter( 'plugin_action_links_' . ADVADS_BASE, array( $this, 'add_plugin_links' ) );
 
@@ -200,7 +202,7 @@ class Advanced_Ads_Admin {
 			'ajax_nonce' => wp_create_nonce( 'advanced-ads-admin-ajax-nonce' ),
 		);
 		wp_localize_script( $this->plugin_slug . '-admin-global-script', 'advadsglobal', $params );
-
+		
 		if ( self::screen_belongs_to_advanced_ads() ) {
 			wp_register_script( $this->plugin_slug . '-admin-script', plugins_url( 'assets/js/admin.js', __FILE__ ), array( 'jquery', 'jquery-ui-autocomplete', 'jquery-ui-button' ), ADVADS_VERSION, false );
 			wp_register_script( $this->plugin_slug . '-wizard-script', plugins_url( 'assets/js/wizard.js', __FILE__ ), array( 'jquery' ), ADVADS_VERSION, false );
@@ -248,7 +250,7 @@ class Advanced_Ads_Admin {
 	 * @return bool true if screen belongs to Advanced Ads
 	 */
 	public static function screen_belongs_to_advanced_ads() {
-
+	    
 		if ( ! function_exists( 'get_current_screen' ) ) {
 			return false;
 		}
@@ -257,7 +259,7 @@ class Advanced_Ads_Admin {
 		if ( ! isset( $screen->id ) ) {
 			return false;
 		}
-
+		
 		$advads_pages = apply_filters(
 			'advanced-ads-dashboard-screens', array(
 				'advanced-ads_page_advanced-ads-groups', // ad groups.
@@ -337,6 +339,24 @@ class Advanced_Ads_Admin {
 		}
 		return 'UTC+0';
 	}
+	
+	/**
+	 * Registers Advanced Ads admin notices
+	 * prevents other notices from showing up on our own pages
+	 */
+	public function register_admin_notices(){
+	    
+		/**
+		 * remove all registered admin_notices from AA screens
+		 * - we need to use this or some users have half or more of their viewports cluttered with unrelated notices
+		 */
+		if ( $this->screen_belongs_to_advanced_ads() ) {
+			remove_all_actions( 'admin_notices' );
+		}
+		
+		// register our own notices
+		add_action( 'admin_notices', array( $this, 'admin_notices' ) );
+	}
 
 	/**
 	 * Initiate the admin notices class
@@ -351,10 +371,16 @@ class Advanced_Ads_Admin {
 				include ADVADS_BASE_PATH . 'admin/views/notices/jqueryui_error.php';
 			}
 		}
-
-		if ( current_user_can( Advanced_Ads_Plugin::user_cap( 'advanced_ads_edit_ads' ) ) ) {
+		
+		// register our own notices on Advanced Ads pages, except from the overview page where they should appear in the notices section
+		$screen = get_current_screen();
+		if ( current_user_can( Advanced_Ads_Plugin::user_cap( 'advanced_ads_edit_ads' ) ) 
+			&& ( ! isset( $screen->id ) || 'toplevel_page_advanced-ads' !== $screen->id ) ) {
 			$this->notices = Advanced_Ads_Admin_Notices::get_instance()->notices;
 			Advanced_Ads_Admin_Notices::get_instance()->display_notices();
+			
+			// allow other Advanced Ads plugins to show admin notices at this late stage
+			do_action( 'advanced-ads-admin-notices');
 		}
 	}
 

@@ -86,8 +86,6 @@ class Advanced_Ads_Admin_Notices {
 
 		// check license notices
 		$this->register_license_notices();
-		// notice for Adblocker module
-		$this->check_assets_expired();
 
 		// don’t check non-critical notices if they are disabled
 		if ( ! isset($plugin_options['disable-notices']) ) {
@@ -172,11 +170,11 @@ class Advanced_Ads_Admin_Notices {
 				$this->notices[] = 'nl_free_addons';
 			}
 		}
-		// ask for a review after 5 days and when 3 ads were created and when not paused
+		// ask for a review after 2 days and when 3 ads were created and when not paused
 		if ( ! in_array( 'review', $queue ) 
                         && ! isset( $closed['review'] )
                         && ( ! isset( $paused['review'] ) || $paused['review'] <= time() )
-                        && 432000 < ( time() - $activation)
+                        && 172800 < ( time() - $activation)
 			&& 3 <= Advanced_Ads::get_number_of_ads()
                             ) {
                             $this->notices[] = 'review';
@@ -202,32 +200,6 @@ class Advanced_Ads_Admin_Notices {
 		    }
 		} else {
 		    $this->remove_from_queue( 'license_invalid' );
-		}
-	}
-
-	/**
-	 * Notice for Adblocker module
-	 */
-	public function check_assets_expired() {
-		$plugin_options = $this->plugin->options();
-		$options = $this->options();
-
-		if ( empty ( $plugin_options['use-adblocker'] ) ) {
-			// check if assets expired, but user disabled Adblocker module
-			$key = array_search( 'assets_expired', $this->notices );
-			if ( $key !== false ) {
-				$this->remove_from_queue( 'assets_expired' );
-				unset( $this->notices[ $key] );
-			}
-
-			return;
-		}
-
-		$adblocker_options = Advanced_Ads_Ad_Blocker::get_instance()->options();
-
-		if ( ! in_array( 'assets_expired', $this->notices ) && ( empty ( $adblocker_options['module_can_work'] ) )
-		) {
-			$this->notices[] = 'assets_expired';
 		}
 	}
 

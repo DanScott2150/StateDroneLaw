@@ -20,15 +20,9 @@
 # To stop tracking a file that is currently tracked,
 # use `git rm --cached`
 #
-# Change Log:
-# 20150227 Ignore hello.php plugin. props @damienfa
-# 20150227 Change theme ignore to wildcard twenty*. props @Z33
-# 20140606 Add .editorconfig as a tracked file
-# 20140404 Ignore database, compiled, and packaged files
-# 20140404 Header Information Updated
-# 20140402 Initially Published
 #
 # -----------------------------------------------------------------
+
 
 # ignore everything in the root except the "wp-content" directory.
 /*

@@ -611,7 +611,7 @@
 				break;
 				default:
 					setDetailsFromAdCode( parseResult );
-					if ( 'undefined' != typeof AdsenseMAPI && parseResult.pubId == AdsenseMAPI.pubId ) {
+					if ( 'undefined' != typeof AdsenseMAPI && 'undefined' != typeof AdsenseMAPI.hasToken && parseResult.pubId == AdsenseMAPI.pubId ) {
 						var content = $( '#advanced-ads-ad-parameters input[name="advanced_ad[content]"]' ).val();
 						MapiSaveAdCode( content, parseResult.slotId );
 						makeReadOnly();
@@ -875,6 +875,14 @@
 				$( '#advanced-ads-ad-parameters-size' ).prev('.label').css( 'display', 'block' );
 				$( '#advanced-ads-ad-parameters-size' ).next('.hr').css( 'display', 'block' );
 				$( '.clearfix-before' ).hide();
+			}
+			if ( 'link' == type || 'normal' == type ) {
+				if ( ! $( '[name="advanced_ad\[width\]"]' ).val() ) {
+					$( '[name="advanced_ad\[width\]"]' ).val( '300' );
+				}
+				if ( ! $( '[name="advanced_ad\[height\]"]' ).val() ) {
+					$( '[name="advanced_ad\[height\]"]' ).val( '250' );
+				}
 			}
 			$( document ).trigger( 'gadsenseUnitChanged' );
 			window.gadsenseFormatAdContent();

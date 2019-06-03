@@ -395,10 +395,9 @@ class Advanced_Ads_Admin_Ad_Type {
 
 		$image_id = ( isset( $_POST['advanced_ad']['output']['image_id'] ) ) ? absint( $_POST['advanced_ad']['output']['image_id'] ) : 0;
 		if ( $image_id ) {
-			$all_posts_id = get_post_meta( $image_id, '_advanced-ads_parent_id' );
-
-			if ( ! in_array ( $post_id, $all_posts_id ) ) {
-				add_post_meta( $image_id, '_advanced-ads_parent_id', $post_id, false  );
+			$attachment = get_post( $image_id );
+			if ( $attachment && 0 === $attachment->post_parent ) {
+				wp_update_post( array( 'ID' => $image_id, 'post_parent' => $post_id ) );
 			}
 		}
 
@@ -668,7 +667,8 @@ class Advanced_Ads_Admin_Ad_Type {
 		global $typenow;
 
 		if ( isset( $typenow ) && $untranslated_text === 'You need a higher level of permission.' && $typenow === $this->post_type ) {
-			$translated_text = __( 'You don’t have access to ads. Please deactivate and re-enable Advanced Ads again to fix this.', 'advanced-ads' );
+			$translated_text = __( 'You don’t have access to ads. Please deactivate and re-enable Advanced Ads again to fix this.', 'advanced-ads' )
+			. '&nbsp;<a href="' . ADVADS_URL . 'manual/user-capabilities/?utm_source=advanced-ads&utm_medium=link&utm_campaign=wrong-user-role#You_dont_have_access_to_ads" target="_blank">' . __( 'Get help', 'advanced-ads' ) . '</a>';
 		}
 
 		return $translated_text;

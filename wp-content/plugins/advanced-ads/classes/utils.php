@@ -126,5 +126,33 @@ class Advanced_Ads_Utils {
 		}
 		return $result;
 	}
+
+	/**
+	 * Maybe translate a capability to a set of roles.
+	 *
+	 * @param string/array $roles_or_caps A set of roles or capabilities.
+	 * @return array $roles A list of roles.
+	 */
+	public static function maybe_translate_cap_to_role( $roles_or_caps ) {
+		global $wp_roles;
+
+		$roles_or_caps = (array) $roles_or_caps;
+		$roles = array();
+
+		foreach ( $roles_or_caps as $cap ) {
+			if ( $wp_roles->is_role( $cap ) ){
+				$roles[] = $cap;
+				continue;
+			}
+
+			foreach ( $wp_roles->roles as $id => $role ) {
+				if ( isset( $role['capabilities'][ $cap ] ) ) {
+					$roles[] = $id;
+				}
+			}
+		}
+
+		return array_unique( $roles );
+	}
 }
 ?>

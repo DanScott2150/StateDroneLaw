@@ -13,6 +13,7 @@ if ( ! defined( 'AAP_VERSION' ) ) {
 	$pro_conditions[] = __( 'referrer url', 'advanced-ads' );
 	$pro_conditions[] = __( 'user agent', 'advanced-ads' );
 	$pro_conditions[] = __( 'user can (capabilities)', 'advanced-ads' );
+	$pro_conditions[] = __( 'user role', 'advanced-ads' );
 }
 if ( ! defined( 'AAGT_VERSION' ) ) {
 	$pro_conditions[] = __( 'geo location', 'advanced-ads' );

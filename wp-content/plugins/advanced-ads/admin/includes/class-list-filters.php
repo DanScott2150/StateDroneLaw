@@ -209,7 +209,15 @@ class Advanced_Ads_Ad_List_Filters {
 		 * which breaks the SQL, because the numbers are no longer recognised as such
 		 */
         if ( ! empty( $group_ids ) ) {
-            $term_relations = $wpdb->get_results( $wpdb->prepare( 'SELECT object_id, term_taxonomy_id FROM `' . $wpdb->prefix . 'term_relationships` WHERE `term_taxonomy_id` IN (%1$s)', implode( ',', $group_ids ) ), 'ARRAY_A' );
+            $term_relations = $wpdb->get_results(
+                $wpdb->prepare(
+                        'SELECT object_id, term_taxonomy_id FROM `' . $wpdb->prefix . 'term_relationships` WHERE `term_taxonomy_id` IN (' .
+                        'SELECT term_taxonomy_id FROM `' . $wpdb->prefix . 'term_taxonomy` WHERE `taxonomy` = %s' .
+                        ')',
+                        Advanced_Ads::AD_GROUP_TAXONOMY
+                    ),
+                    'ARRAY_A'
+            );
 		}
         foreach ( $term_relations as $value ) {
 			if ( isset( $value['term_taxonomy_id'] ) && isset( $value['object_id'] ) ) {
@@ -403,8 +411,13 @@ class Advanced_Ads_Ad_List_Filters {
             
             $term = $request['term'];
             global $wpdb;
-            $q = 'SELECT `object_id` FROM `' . $wpdb->prefix . 'term_relationships` WHERE `term_taxonomy_id` = ( SELECT `term_id` FROM `' . $wpdb->prefix . 'terms` WHERE `slug` = %s )';
-            $q = $wpdb->prepare( $q, $term );
+            $q =    'SELECT `object_id` FROM `' . $wpdb->prefix . 'term_relationships` WHERE `term_taxonomy_id` = (' .
+                        'SELECT ' . $wpdb->prefix . 'terms.term_id FROM `' . $wpdb->prefix . 'terms` INNER JOIN ' .
+                        $wpdb->prefix . 'term_taxonomy on ' . $wpdb->prefix . 'terms.term_id = ' . $wpdb->prefix . 'term_taxonomy.term_id ' .
+                        'WHERE ' . $wpdb->prefix . 'terms.slug = %s AND ' . $wpdb->prefix . 'term_taxonomy.taxonomy = %s' .
+                    ')';
+            
+            $q = $wpdb->prepare( $q, $term, Advanced_Ads::AD_GROUP_TAXONOMY );
             
             $object_ids = $wpdb->get_results( $q, 'ARRAY_A' );
             $ads_in_taxo = array();

@@ -1,10 +1,13 @@
 nav{
   background: black;
-  width: 100%;
-  padding-top: 20px;
-  padding-bottom:20px;
+  height: 75px;
+  padding: 10px 0px;
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+}
 
-  transition: all 0.3s ease-in-out;
+.site-title{
+  margin: 0px;
 }
 
 nav ul a{
@@ -13,21 +16,14 @@ nav ul a{
 
 nav ul a:hover{
   color: $color__red!important;
-    transition: color 0.3s ease-in-out;
 }
 
 .nav-toggle-wrapper{
   width: auto;
 }
 
-
-nav h1{
-  margin: 0;
-}
-
-
 nav ul li{
-  padding: 0 5px;
+  padding: 0px 5px;
   border-right: 1px solid white;
 }
 
@@ -35,19 +31,19 @@ nav ul li:last-child{
   border-right: 0;
 }
 
-#navScrollWrapper{
+// When user scrolls down, Nav bar sticks to top but shrinks
+.nav_shrink{
+  height: 40px;
+  background: rgba(0,0,0,0.9);
 }
 
-.navShrink{
-  // padding: 10px 0px!important;
-  margin-top: 0px;
-    // height: 50px;
-    transition: all 0.3s ease-in-out;
-    background: rgba(0,0,0,0.9);
+.nav_shrink:hover{
+  background: black;
+  height: 75px;
+  padding: 10px 0px;
 }
 
 .navbar-toggler{
-  // float: none;
   display: block;
   margin: 0 0 auto auto;
   transition: all 0.3s ease-in-out;
@@ -55,18 +51,26 @@ nav ul li:last-child{
 
 .navbar-toggler:hover{
   background: #252525;
-
 }
 
 @media (max-width: 768px){
 
-  .nav-toggle-wrapper{
-    width: 25%;
+  nav {
+    height: auto;
+    padding: 20px 0px!important;
   }
 
-  nav ul{
-    // border-right: 1px solid white;
+  .nav_shrink{
+    height: auto;
+    background: black;
+  }
 
+  .nav_shrink:hover{
+    height: auto;
+  }
+
+  .nav-toggle-wrapper{
+    width: 25%;
   }
 
   nav ul li{
@@ -80,7 +84,6 @@ nav ul li:last-child{
   nav ul li:last-child{
     border-bottom: 0;
     border-right: 1px solid white;
-    // border: 1px solid #252525;
   }
 
   nav ul li:hover{
@@ -90,7 +93,6 @@ nav ul li:last-child{
 }
 
 @media (max-width: 576px){
-
   nav{
     margin-top: 0;
     margin-bottom: 0;
@@ -99,9 +101,11 @@ nav ul li:last-child{
   nav h1{
     margin: 0 auto!important;
   }
+
   .nav-toggle-wrapper{
     width: 100%;
   }
+
   .navbar-toggler{
     display: block;
     margin: 10px auto!important;
@@ -110,7 +114,6 @@ nav ul li:last-child{
   #spacer{
       height: 130px;
   }
-
 }
 
 @media (min-width: 577px){

@@ -37,6 +37,7 @@ class ComposerStaticInitd24de3c06687d3cf4aad0b15c83747be
         'Advanced_Ads_Ad' => __DIR__ . '/../..' . '/classes/ad.php',
         'Advanced_Ads_Ad_Ajax_Callbacks' => __DIR__ . '/../..' . '/classes/ad_ajax_callbacks.php',
         'Advanced_Ads_Ad_Debug' => __DIR__ . '/../..' . '/classes/ad-debug.php',
+        'Advanced_Ads_Ad_Health_Notices' => __DIR__ . '/../..' . '/classes/ad-health-notices.php',
         'Advanced_Ads_Ad_List_Filters' => __DIR__ . '/../..' . '/admin/includes/class-list-filters.php',
         'Advanced_Ads_Ad_Type_Abstract' => __DIR__ . '/../..' . '/classes/ad_type_abstract.php',
         'Advanced_Ads_Ad_Type_Content' => __DIR__ . '/../..' . '/classes/ad_type_content.php',

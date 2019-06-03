@@ -207,6 +207,17 @@ class Advanced_Ads_Admin_Meta_Boxes {
 			}
 		}
 		
+        if ( 'ad-parameters-box' === $box['id'] && Advanced_Ads_Ad_Type_Adsense::content_is_adsense( $ad->content ) && in_array( $ad->type, array( 'plain', 'content' ) ) ) {
+            $warnings[] = array(
+                'class' => 'advads-adsense-found-in-content error',
+                'text' => sprintf( 
+                    esc_html__( 'This looks like an AdSense ad. Switch the ad type to “AdSense ad” to make use of more features. %sSwitch to AdSense ad%s.', 'advanced' ),
+                    '<button class="button-secondary" id="switch-to-adsense-type">',
+                    '</button>'
+                )
+            );
+        }
+        
 		$warnings = apply_filters( 'advanced-ads-ad-notices', $warnings, $box, $post );
 		echo '<ul id="' .$box['id'].'-notices" class="advads-metabox-notices">';
 		foreach( $warnings as $_warning ){
@@ -465,7 +476,18 @@ class Advanced_Ads_Admin_Meta_Boxes {
 			wp_widget_rss_output( $_feed['url'], $_feed );
 			echo '</div>';
 		}
-		set_transient( $cache_key, ob_get_flush(), 48 * HOUR_IN_SECONDS ); // Default lifetime in cache of 48 hours
+		
+		$feed_content = ob_get_clean();
+		$error_string = '<strong>' . __( 'RSS Error:' ) . '</strong> ';
+		
+		// empty the widget content, if we find the error string in it
+		if( strpos( $feed_content, $error_string ) ){
+			$feed_content = '';
+		}
+		
+		echo $feed_content;
+		
+		set_transient( $cache_key, $feed_content, 48 * HOUR_IN_SECONDS ); // Default lifetime in cache of 48 hours
 		die();
 	}
 	

@@ -21,7 +21,7 @@ if ( $hide_idle_ads ) {
 $unsupported_ad_type_link = Advanced_Ads_AdSense_MAPI::UNSUPPORTED_TYPE_LINK;
 
 ?>
-<div id="mapi-wrap">
+<div id="mapi-wrap" class="aa-select-list">
 	<button type="button" id="mapi-close-selector" class="notice-dismiss"></button>
     <?php if ( $hide_idle_ads ) : ?>
     <i id="mapi-show-idle" title="<?php esc_attr_e( 'Show inactive ads' , 'advanced-ads' ); ?>" class="dashicons dashicons-visibility mapiaction" data-mapiaction="showidle"></i>
@@ -29,15 +29,15 @@ $unsupported_ad_type_link = Advanced_Ads_AdSense_MAPI::UNSUPPORTED_TYPE_LINK;
     <i id="mapi-hide-idle" title="<?php esc_attr_e( 'Hide inactive ads' , 'advanced-ads' ); ?>" class="dashicons dashicons-hidden mapiaction" data-mapiaction="hideidle"></i>
     <?php endif; ?>
 	<?php if ( !empty( $ad_units ) ) : ?>
-	<i id="mapi-update-unit-lists" class="dashicons dashicons-update mapiaction" data-mapiaction="updateList" style="color:#0085ba;cursor:pointer;font-size:20px;" title="<?php 
+	<i class="aa-select-list-update dashicons dashicons-update mapiaction" data-mapiaction="updateList" style="color:#0085ba;cursor:pointer;font-size:20px;" title="<?php 
 	    esc_attr_e( 'Update the ad units list', 'advanced-ads' ) ?>"></i>
 	<?php endif; ?>
-	<div id="mapi-loading-overlay">
+	<div id="mapi-loading-overlay" class="aa-select-list-loading-overlay">
 		<img alt="..." src="<?php echo ADVADS_BASE_URL . 'admin/assets/img/loader.gif'; ?>" style="margin-top:8em;" />
 	</div>
 	
 	<?php if ( !empty( $ad_units ) ) : ?>
-	<div id="mapi-list-header">
+	<div id="mapi-list-header" class="aa-select-list-header">
 		<span><?php echo esc_attr_x( 'Ad unit', 'AdSense ad', 'advanced-ads' ); ?></span>
 		<span><?php esc_html_e( 'Name', 'advanced-ads' ); ?></span>
 		<span><?php echo esc_html_x( 'Slot ID', 'AdSense ad', 'advanced-ads' ); ?></span>
@@ -45,7 +45,7 @@ $unsupported_ad_type_link = Advanced_Ads_AdSense_MAPI::UNSUPPORTED_TYPE_LINK;
 		<span><?php esc_html_e( 'Size', 'advanced-ads' ); ?></span>
 	</div>
 	<?php endif; ?>
-	<div id="mapi-table-wrap">
+	<div id="mapi-table-wrap" class="aa-select-list-table-wrap">
 		<table class="widefat striped">
 			<?php if ( empty( $ad_units ) ) : ?>
 			<thead>

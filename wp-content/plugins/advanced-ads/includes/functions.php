@@ -101,6 +101,7 @@ function advads_is_amp() {
 
 	return ( function_exists( 'is_amp_endpoint' ) && is_amp_endpoint() )
 	|| ( function_exists( 'is_wp_amp' ) && is_wp_amp() )
+	|| ( function_exists( 'ampforwp_is_amp_endpoint' ) && ampforwp_is_amp_endpoint() )
 	|| isset( $_GET [ 'wpamp' ] );
 }
 

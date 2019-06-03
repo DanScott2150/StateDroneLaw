@@ -147,6 +147,15 @@ class Advanced_Ads_AdSense_Admin {
 			'advanced_ads_adsense_setting_section'
 		);
 		
+        // AdSense anchor ad on top of pages.
+        add_settings_field(
+            'top_anchor_ad',
+            __( 'Auto ads', 'advanced-ads' ) . ':&nbsp;' . __( 'Disable top anchor ad', 'advanced-ads' ),
+            array( $this, 'render_settings_adsense_top_anchor_ad' ),
+            $hook,
+			'advanced_ads_adsense_setting_section'
+        );
+        
 		// add setting field for adsense limit
 		// deprecated of January, 2019; will be removed one year later
 		$limit_per_page = $this->data->get_limit_per_page();
@@ -192,17 +201,9 @@ class Advanced_Ads_AdSense_Admin {
 		// }
 		// hook for additional settings from add-ons
 		do_action( 'advanced-ads-adsense-settings-init', $hook );
-		
-		add_settings_field(
-			'adsense-support',
-			__( 'Support', 'advanced-ads' ),
-			array( $this, 'render_settings_adsense_support' ),
-			$hook,
-			'advanced_ads_adsense_setting_section'
-		);
 	}
 
-        /**
+    /**
 	 * render adsense settings section
 	 *
 	 * @since 1.5.1
@@ -249,6 +250,19 @@ class Advanced_Ads_AdSense_Admin {
 		<?php endif;
 	}
 
+    /**
+     * Render top anchor ad setting
+     */
+    public function render_settings_adsense_top_anchor_ad() {
+        $options = $this->data->get_options();
+        $anchor_ad = isset( $options['top-anchor-ad'] )? $options['top-anchor-ad'] : ''; ?>
+        <label>
+            <input type="checkbox" name="<?php echo GADSENSE_OPT_NAME; ?>[top-anchor-ad]" value="1" <?php checked( $anchor_ad ); ?> />
+            <?php esc_html_e( 'Enable this box if you don’t want Google Auto ads to place anchor ads at the top of your page.', 'advanced-ads' ); ?>
+        </label>
+        <?php
+    }
+    
 	/**
 	 * render page-level ads setting
 	 *
@@ -294,22 +308,6 @@ class Advanced_Ads_AdSense_Admin {
 
 		?><label><input type="checkbox" name="<?php echo GADSENSE_OPT_NAME; ?>[background]" value="1" <?php checked( $background ); ?> />
 		<?php _e( 'Enable this option in case your theme adds an unfortunate background color to AdSense ads.', 'advanced-ads' ); ?></label><?php
-	}	
-
-	/**
-	 * Render support info for AdSense
-	 */
-	public function render_settings_adsense_support() {
-		?><p class="advanced-ads-adsense-support"><span class="advanced-ads-adsense-support-text"><?php _e( 'Faster than the AdSense support!', 'advanced-ads' ); ?></span>
-		    <br/>
-		    <span class="dashicons dashicons-star-filled"></span>
-		    <span class="dashicons dashicons-star-filled"></span>
-		    <span class="dashicons dashicons-star-filled"></span>
-		    <span class="dashicons dashicons-star-filled"></span>
-		    <span class="dashicons dashicons-star-filled"></span>
-		</p>
-		<p><a href="<?php echo Advanced_Ads_Plugin::support_url( '#utm_source=advanced-ads&utm_medium=link&utm_campaign=adsense-tab-support' )?>" target="_blank"><?php 
-			    _e( 'reach out for help', 'advanced-ads' ); ?></a></p><?php
 	}	
 
         /**

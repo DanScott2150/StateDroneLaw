@@ -300,11 +300,19 @@ class Advanced_Ads_Ad {
 			// if ( method_exists( 'Advanced_Ads_Tracking_Plugin' , 'check_ad_tracking_enabled' ) ) {
 			// if ( class_exists( 'Advanced_Ads_Tracking_Plugin', false ) ) {
 			if ( defined( 'AAT_VERSION' ) && -1 < version_compare( AAT_VERSION, '1.4.2' ) ) {
+				
 				$new_ad['tracking_enabled'] = Advanced_Ads_Tracking_Plugin::get_instance()->check_ad_tracking_enabled( $this );
+				
+				$tracking_options = Advanced_Ads_Tracking_Plugin::get_instance()->options();
+				if ( isset( $tracking_options['method'] ) && 'frontend' == $tracking_options['method'] && isset( $this->output['placement_id'] ) ) {
+					$new_ad['placement_id'] = $this->output['placement_id'];
+				}
+				
 			}
+			
 			$advads->current_ads[] = $new_ad;
 		}
-
+		
 		// action when output is created
 		do_action( 'advanced-ads-output', $this, $output, $output_options );
 		
@@ -435,7 +443,7 @@ class Advanced_Ads_Ad {
 	 */
 	public function can_display_by_expiry_date(){
 
-		// if expiry_date is not set null is returned
+		// if expiry_date is not set, null is returned
 		$ad_expiry_date = (int) $this->options( 'expiry_date' );
 
 		if ( $ad_expiry_date <= 0 || $ad_expiry_date > time() ) {
@@ -445,6 +453,10 @@ class Advanced_Ads_Ad {
 		// set status to 'draft' if the ad is expired
 		if ( $this->status !== 'draft' ) {
 			wp_update_post( array( 'ID' => $this->id, 'post_status' => 'draft' ) );
+			/**
+			 * Run when an ad expires
+			 */
+			do_action( 'advanced-ads-ad-expired', $this->id, $this );
 		}
 
 		return false;
@@ -771,7 +783,7 @@ class Advanced_Ads_Ad {
 		}
 		
 		// add edit button for users with the appropriate rights
-		if( current_user_can( Advanced_Ads_Plugin::user_cap( 'advanced_ads_edit_ads') ) ){
+		if( ! defined( 'ADVANCED_ADS_DISABLE_EDIT_BAR' ) && current_user_can( Advanced_Ads_Plugin::user_cap( 'advanced_ads_edit_ads') ) ){
 			ob_start();
 			include ADVADS_BASE_PATH . 'public/views/ad-edit-bar.php';
 			$ad_content = ob_get_clean() . $ad_content;

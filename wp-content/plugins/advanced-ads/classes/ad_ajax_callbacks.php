@@ -36,6 +36,11 @@ class Advanced_Ads_Ad_Ajax_Callbacks {
 		add_action( 'wp_ajax_advads-ad-injection-content', array( $this, 'inject_placement' ) );
 		add_action( 'wp_ajax_advads-save-hide-wizard-state', array( $this, 'save_wizard_state' ) );
 		add_action( 'wp_ajax_advads-adsense-enable-pla', array( $this, 'adsense_enable_pla' ) );
+		add_action( 'wp_ajax_advads-ad-health-notice-display', array( $this, 'ad_health_notice_display' ) );
+		add_action( 'wp_ajax_advads-ad-health-notice-push', array( $this, 'ad_health_notice_push' ) );
+		add_action( 'wp_ajax_advads-ad-health-notice-hide', array( $this, 'ad_health_notice_hide' ) );
+		add_action( 'wp_ajax_advads-ad-health-notice-unignore', array( $this, 'ad_health_notice_unignore' ) );
+		add_action( 'wp_ajax_advads-ad-health-notice-solved', array( $this, 'ad_health_notice_solved' ) );
 
 	}
 
@@ -418,5 +423,77 @@ class Advanced_Ads_Ad_Ajax_Callbacks {
 		$options['page-level-enabled'] = true;
 		update_option( GADSENSE_OPT_NAME, $options );
 	    die();
+	}
+	
+	/**
+	 * Display list of Ad Health notices
+	 */
+	public function ad_health_notice_display(){
+		
+		check_ajax_referer( 'advanced-ads-admin-ajax-nonce', 'nonce' );
+		
+		if ( ! current_user_can( Advanced_Ads_Plugin::user_cap( 'advanced_ads_manage_options') ) ) {
+			return;
+		}
+	    
+		Advanced_Ads_Ad_Health_Notices::get_instance()->render_widget();
+		die();
+	}
+	
+	/**
+	 * Push an Ad Health notice to the queue
+	 */
+	public function ad_health_notice_push(){
+		
+		check_ajax_referer( 'advanced-ads-admin-ajax-nonce', 'nonce' );
+		
+		if ( ! current_user_can( Advanced_Ads_Plugin::user_cap( 'advanced_ads_manage_options') ) ) {
+			return;
+		}
+		
+		$key = ( !empty( $_REQUEST['key'] ) ) ? esc_attr( $_REQUEST['key'] ) : false;
+		$attr = ( !empty( $_REQUEST['attr'] ) && is_array( $_REQUEST['attr'] ) ) ? $_REQUEST['attr'] : array();
+		
+		// update or new entry?
+		if( isset( $attr['mode'] ) && 'update' === $attr['mode'] ){
+			Advanced_Ads_Ad_Health_Notices::get_instance()->update( $key, $attr );
+		} else {
+			Advanced_Ads_Ad_Health_Notices::get_instance()->add( $key, $attr );
+		}	  
+		
+		die();
+	}
+	
+	/**
+	 * Hide Ad Health notice
+	 */
+	public function ad_health_notice_hide(){
+		check_ajax_referer( 'advanced-ads-admin-ajax-nonce', 'nonce' );
+		
+		if ( ! current_user_can( Advanced_Ads_Plugin::user_cap( 'advanced_ads_manage_options') ) ) {
+			return;
+		}
+	    
+		$notice_key = ( !empty( $_REQUEST['notice'] ) ) ? esc_attr( $_REQUEST['notice'] ) : false;
+		
+		Advanced_Ads_Ad_Health_Notices::get_instance()->hide( $notice_key );
+		die();
+	}
+	
+	/**
+	 * Show all ignored notices of a given type
+	 */
+	public function ad_health_notice_unignore(){
+		check_ajax_referer( 'advanced-ads-admin-ajax-nonce', 'nonce' );
+		
+		if ( ! current_user_can( Advanced_Ads_Plugin::user_cap( 'advanced_ads_manage_options') ) ) {
+			return;
+		}
+		
+		// $notice_key = ( !empty( $_REQUEST['type'] ) ) ? esc_attr( $_REQUEST['type'] ) : false;
+		
+		// Advanced_Ads_Ad_Health_Notices::get_instance()->unignore_by_type( $notice_key );
+		Advanced_Ads_Ad_Health_Notices::get_instance()->unignore();
+		die();
 	}
 }

@@ -6,7 +6,7 @@
 	*
 	* @author Dan Scott <danscott2150@gmail.com>
 	* @copyright 2018 Dan Scott | StateDroneLaw
-	* @version 20180601
+	* @version 20190603
  	*
  	* @package StateDroneLaw
  	*/
@@ -19,20 +19,17 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="profile" href="https://gmpg.org/xfn/11">
 
-
 	<!-- Using version 4 of FontAwesome because I like the icons better -->
 	<link rel="stylesheet" href="/wp-content/themes/StateDroneLaw/assets/font-awesome-4.7.0/css/font-awesome.min.css">
 
 	<!-- Google fonts, currently Lato & Roboto -->
 	<link href="https://fonts.googleapis.com/css?family=Lato:400,900|Roboto:400,400i,700,700i" rel="stylesheet">
 
-
-	<!-- jQuery includes -->
+  <!-- jQuery includes -->
+  <!-- ToDo: Can I transition away from jQuery? Some plugins might depend on it though, need to look into -->
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
-
-
 
 	<?php wp_head(); ?>
 </head>
@@ -40,14 +37,14 @@
 <body <?php body_class(); ?>>
 
 <!-- Facebook Plugin include -->
-			<div id="fb-root"></div>
-			<script>(function(d, s, id) {
-				var js, fjs = d.getElementsByTagName(s)[0];
-				if (d.getElementById(id)) return;
-				js = d.createElement(s); js.id = id;
-				js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9&appId=208725186250533";
-				fjs.parentNode.insertBefore(js, fjs);
-			}(document, 'script', 'facebook-jssdk'));</script>
+  <div id="fb-root"></div>
+  <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9&appId=208725186250533";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
 <!-- End of Facebook Plugin -->
 
 <div id="page" class="site">
@@ -60,7 +57,7 @@
 
 	<header id="masthead" class="site-header">
 
-		<nav class="navbar navbar-expand-md navbar-dark fixed-top pt-3 pb-3" id="navScrollWrapper">
+		<nav class="navbar navbar-expand-md navbar-dark fixed-top" id="navScrollWrapper">
 			<div class="container">
 		  	<h1 class="site-title"><a href="/">StateDroneLaw</a></h1>
 

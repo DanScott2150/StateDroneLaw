@@ -633,13 +633,19 @@ class Advanced_Ads_Group {
 	 * 
 	 * @param   int	$num_ads    number of ads in the group
 	 * @since   1.8.22
+	 *
+	 * @return  max weight used in group settings
 	 */
 	public static function get_max_ad_weight( $num_ads = 1 ){
 	    
-		// use default if lower than default
+		// use default if lower than default.
 		$num_ads = absint( $num_ads );
-		
-		return $num_ads < self::MAX_AD_GROUP_DEFAULT_WEIGHT ? self::MAX_AD_GROUP_DEFAULT_WEIGHT : $num_ads;
+
+		// use number of ads or max ad weight value, whatever is higher
+		$max_weight = $num_ads < self::MAX_AD_GROUP_DEFAULT_WEIGHT ? self::MAX_AD_GROUP_DEFAULT_WEIGHT : $num_ads;
+
+		// allow users to manipulate max ad weight
+		return apply_filters( 'advanced-ads-max-ad-weight', $max_weight, $num_ads );
 	}
 	
 

@@ -25,6 +25,19 @@
 #advads-overview #advads_overview_addons table tr.recommended th,
 #advads-overview #advads_overview_addons table tr.free th { padding-top: 20px; }
 #advads_overview_news .button-primary { margin-left: 0; }
+#advads_overview_notices .main { position: relative; top: 0; left: 0; }
+#advads_overview_notices .advads-loader { position: absolute; top: 0; left: 0; right: 0; bottom: 0; height: 100%; width: 100%; margin: 0 auto; opacity: 0.5; background-color: #fff; background-position: center; }
+#advads_overview_notices #advads-support-callout p { clear: both; margin-bottom: 0; }
+.advads-ad-health-notices { overflow: hidden; }
+.advads-ad-health-notices li { padding: 10px; overflow: hidden; box-shadow: 0 1px 2px 0 rgba( 0, 0, 0, 0.2 ); border-left: 4px solid #fff; }
+.advads-ad-health-notices li > span { float: left; display: block; }
+.advads-ad-health-notices li > span.date { display: none; float: right; margin: 0 1em; color: #666; font-style: italic; }
+.advads-ad-health-notices li:hover span.date { display: block; }
+.advads-ad-health-notices li > button { float: right; }
+.advads-ad-health-notices li > button + button { margin-right: 10px; }
+.advads-ad-health-notices li a { color: inherit; }
+.advads-ad-health-notices-problem li { border-left-color: #dc3232; }
+.adsvads-ad-health-notices-show-hidden { text-align: right; cursor: pointer; margin-right: 10px; }
 
 /**
 * AD OVERVIEW PAGE
@@ -203,6 +216,28 @@ select + .advads-conditions-single { display: inline-block; }
 #advads-start-wizard.dashicons-before:before,
 #advads-stop-wizard.dashicons-before:before { height: 15px; line-height: 0.9em; }
 
+/* Ad list (AdSense, DFP, etc)*/
+.aa-select-list { border: 1px solid #ddd; padding: .5rem; position: relative; display:none; overflow: hidden; }
+.aa-select-list .label { font-weight:bold; display:block; margin:.75em auto .25rem; }
+.aa-select-list { padding-top: 46px; }
+.aa-select-list table, .aa-select-list table tbody { width: 100%; }
+.aa-select-list table { margin-bottom: 10px; }
+.aa-select-list tbody .dashicons { font-size: 1.2em; cursor: pointer; }
+.aa-select-list thead th { font-weight: 700; }
+.aa-select-list tbody .dashicons.disabled { color: #939393; }
+.aa-select-list .aa-select-list-update { font-size: 20px; padding: 13px; position: absolute; top: 0; right: 47px; }
+.aa-select-list .aa-select-list-header { font-weight: 700; display: inline-block; font-size: 13px; line-height: 1.5em; }
+.aa-select-list .aa-select-list-header span { display: inline-block; padding: 8px 9px; }
+.aa-select-list-table-wrap { position: relative; }
+.aa-select-list-table-wrap tr.selected { background-color: #dcdcfb; }
+.aa-select-list-table-wrap tr.selected td { color: #0073aa; font-weight: bold; }
+.aa-select-list-table-wrap { margin-left: -.5rem; margin-right: -.5rem; }
+.aa-select-list-loading-overlay { position:absolute; background-color:rgba(255,255,255,.75); top:0; right:0; bottom:0; left:0; text-align:center; z-index: 1; display:none; }
+@media( min-width: 783px ) { .aa-select-list { 	padding-top: 38px; } .aa-select-list .aa-select-list-update { 	padding: 9px; 	right: 39px; } }
+
+#advads-support-callout > p { color: #0073aa; }
+#advads-support-callout a { text-decoration: none; }
+
 /**
  AD GROUP LIST
 */
@@ -273,11 +308,11 @@ tr:hover .on-hover { display: block; }
 .advads-spinner { float: none; visibility: visible; }
 .advads-wide-input { width: 30em; }
 
-/** WELCOME PANEL
+/**
+ WELCOME PANEL
 */
-
-
 .advads-admin-notice[data-notice="nl_intro"]  { border: 4px solid #0073aa; }
+.advads-admin-notice button.notice-dismiss:before { color: #0073aa !important; } /* needed, because some other CSS seems to override it into white */
 #aa-welcome-panel h2 { margin: 0; font-size: 21px; font-weight: 400; line-height: 1.2; }
 #aa-welcome-panel h3 { margin: 1.33em 0; font-size: 16px; }
 #aa-welcome-panel li { font-size: 14px; }
@@ -297,33 +332,15 @@ tr:hover .on-hover { display: block; }
 #adsense-ad-param-error { color: red; font-weight: bold; }
 .advads-adsense-content { width: 100%; }
 .advads-adsense-show-code a, #mapi-open-selector a { padding: 0 10px; color: inherit; }
-#mapi-wrap { border: 1px solid #ddd; padding: .5rem; position: relative; display:none; overflow: hidden; }
-#mapi-wrap .label { font-weight:bold; display:block; margin:.75em auto .25rem; }
 #mapi-quota-message{ color: #ef8e00; font-style: italic; font-weight: bold; }
-
-#mapi-loading-overlay { position:absolute; background-color:rgba(255,255,255,.75); top:0; right:0; bottom:0; left:0; text-align:center; z-index: 1; display:none; }
-#mapi-wrap { padding-top: 46px; }
-#mapi-wrap table, #mapi-wrap table tbody { width: 100%; }
-#mapi-wrap table { margin-bottom: 10px; }
-#mapi-wrap tbody .dashicons { font-size: 1.2em; cursor: pointer; }
-#mapi-wrap thead th { font-weight: 700; }
-#mapi-wrap tbody .dashicons.disabled { color: #939393; }
-#mapi-wrap tbody [data-mapiaction="getCode"] { color: #46b450; }
-#mapi-wrap tbody .disabled[data-mapiaction="getCode"] { color: #a7a7a7; cursor: default; }
-#mapi-wrap tbody [data-mapiaction="updateCode"] { color: #0085ba; }
-#mapi-wrap #mapi-update-unit-lists { font-size: 20px; padding: 13px; position: absolute; top: 0; right: 47px; }
+.aa-select-list tbody [data-mapiaction="getCode"] { color: #46b450; }
+.aa-select-list tbody .disabled[data-mapiaction="getCode"] { color: #a7a7a7; cursor: default; }
+.aa-select-list tbody [data-mapiaction="updateCode"] { color: #0085ba; }
 #mapi-show-idle, #mapi-hide-idle { font-size: 20px; padding: 9px; position: absolute; top: 0; right: 78px; color: #72777c; cursor: pointer; }
-#mapi-wrap #mapi-list-header { font-weight: 700; display: inline-block; font-size: 13px; line-height: 1.5em; }
-#mapi-wrap #mapi-list-header span { display: inline-block; padding: 8px 9px; }
-#mapi-table-wrap { position: relative; }
-@media( min-width: 783px ) { #mapi-wrap { 	padding-top: 38px; } #mapi-wrap #mapi-update-unit-lists { 	padding: 9px; 	right: 39px; } }
-#mapi-table-wrap tr.selected { background-color: #dcdcfb; }
-#mapi-table-wrap tr.selected td { color: #0073aa; font-weight: bold; }
 #remote-ad-unsupported-ad-type { background-color: #f0f0f0; padding: 8px; border: 1px solid #d6d6d6; }
 #mapi-table-wrap .unsupported { text-decoration:line-through; color:#555 }
 #mapi-table-wrap .unsupported span { text-decoration:none;color:#555 }
 #mapi-table-wrap table { border-left:none; border-right: none; }
-#mapi-table-wrap { margin-left: -.5rem; margin-right: -.5rem; }
 .advanced-ads-adsense-support { background-color: #fbfbfb; border: 1px solid #eee; padding: 1em; }
 .advanced-ads-adsense-support-text { font-size: 1.4em; font-weight: 400; }
 .advanced-ads-adsense-support .dashicons { color: #ffb900; }
@@ -343,6 +360,8 @@ tr:hover .on-hover { display: block; }
 .advads-tab-sub-menu ul li a { cursor: pointer; }
 .advads-tab-sub-menu ul li + li:before { content: '|'; }
 .advads-tab-sub-menu ul li + li a { padding-left: 0.5em; }
+#advads-settings-hide-by-user-role { -webkit-columns: 200px 5; /* Chrome, Safari, Opera */ -moz-columns: 200px 5; /* Firefox */ columns: 200px 5; column-gap: 10px; }
+#advads-settings-hide-by-user-role label { display: block; }
 
 /**
 - SUPPORT PAGE

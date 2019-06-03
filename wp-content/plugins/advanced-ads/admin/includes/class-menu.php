@@ -48,11 +48,17 @@ class Advanced_Ads_Admin_Menu {
 	public function add_plugin_admin_menu() {
 
 		$has_ads = Advanced_Ads::get_number_of_ads();
+		
+		// get number of ad health notices
+		$notices = Advanced_Ads_Ad_Health_Notices::get_number_of_notices();
 	    
 		// use the overview page only when there is an ad already
 		if( $has_ads ){
 			add_menu_page(
-				__( 'Overview', 'advanced-ads' ), 'Advanced Ads', Advanced_Ads_Plugin::user_cap( 'advanced_ads_see_interface'), $this->plugin_slug, array($this, 'display_overview_page'), 'dashicons-chart-line', '58.74'
+				__( 'Overview', 'advanced-ads' ), 
+					'Advanced Ads',
+					//sprintf( 'Advanced Ads' . '<span class="update-plugins count-' . $notices. '"><span class="update-count">' . $notices . '</span></span>' ), 
+					Advanced_Ads_Plugin::user_cap( 'advanced_ads_see_interface'), $this->plugin_slug, array($this, 'display_overview_page'), 'dashicons-chart-line', '58.74'
 			);
 		}
 		// forward Ads link to new-ad page when there is no ad existing yet.
@@ -109,7 +115,18 @@ class Advanced_Ads_Admin_Menu {
 			    admin_url( 'admin.php?page=advanced-ads-settings#top#support' ),
 			    __('Support', 'advanced-ads' ), // not sure what this is, but it is in the API
 			);
+			global $menu;
+			// manipulate the title of the overview page and add error count
+			if( isset( $menu[ '58.74' ][ 0 ] ) ){
+				$menu[ '58.74' ][ 0 ] .= '&nbsp;<span class="update-plugins count-' . $notices. '"><span class="update-count">' . $notices . '</span></span>';
+			}
+			/*if( $has_ads ){
+				$submenu['advanced-ads'][0][0] .= '&nbsp;<span class="update-plugins count-' . $notices. '"><span class="update-count">' . $notices . '</span></span>';
+			} else {
+				$submenu['advanced-ads'][1][0] .= '&nbsp;<span class="update-plugins count-' . $notices. '"><span class="update-count">' . $notices . '</span></span>';
+			}*/
 		}
+		
 
 		// allows extensions to insert sub menu pages
 		do_action( 'advanced-ads-submenu-pages', $this->plugin_slug );

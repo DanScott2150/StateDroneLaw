@@ -296,6 +296,7 @@ class Advanced_Ads {
 
 			if ( ! empty( $post_ad_options['disable_ads'] ) ) {
 				define( 'ADVADS_ADS_DISABLED', true );
+				return;
 			}
 		};
 
@@ -308,7 +309,27 @@ class Advanced_Ads {
 			$shop_ad_options = get_post_meta( absint( $shop_id ), '_advads_ad_settings', true );
 			if ( ! empty( $shop_ad_options['disable_ads'] ) ) {
 				define( 'ADVADS_ADS_DISABLED', true );
+				return;
 			}
+		}
+
+		if ( isset( $options['hide-for-user-role'] ) ) {
+			$hide_for_roles = Advanced_Ads_Utils::maybe_translate_cap_to_role( $options['hide-for-user-role'] );
+		} else {
+			$hide_for_roles = array();
+		}
+		$user = wp_get_current_user();
+
+		if ( $hide_for_roles && is_user_logged_in() && is_array( $user->roles ) && array_intersect( $hide_for_roles, $user->roles ) ) {
+			define( 'ADVADS_ADS_DISABLED', true );
+			return;
+		}
+
+		// check bots if option is enabled.
+		if ( ( isset( $options['block-bots'] ) && $options['block-bots']
+			&& ! $this->is_cache_bot() && $this->is_bot() ) ) {
+			define( 'ADVADS_ADS_DISABLED', true );
+			return;
 		}
 	}
 
@@ -424,15 +445,25 @@ class Advanced_Ads {
 			return $content;
 		}
 
+		if ( $this->has_many_the_content() ) {
+			return $content;
+		}
+
 		// Check if ads are disabled in secondary queries.
 		if ( ! empty( $options['disabled-ads']['secondary'] ) ) {
+			// this function was called by ajax (in secondary query).
 			if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-				// This function was called by ajax (in secondary query).
 				return $content;
 			}
-			if ( $this->has_many_the_content() ) {
-				return $content;
-			}
+			// get out of wp_router_page post type if ads are disabled in secondary queries.
+            if ( 'wp_router_page' === get_post_type() ) {
+                return $content;
+            }
+		}
+
+		// No need to inject ads because all tags are stripped from excepts.
+		if ( doing_filter( 'get_the_excerpt' ) ) {
+			return $content;
 		}
 
 		// run only within the loop on single pages of public post types.
@@ -563,19 +594,6 @@ class Advanced_Ads {
 			return false;
 		}
 
-		$see_ads_capability = isset( $options['hide-for-user-role'] ) && '' !== $options['hide-for-user-role'] ? $options['hide-for-user-role'] : false;
-
-		// check if user is logged in and if so if users with his rights can see ads.
-		if ( $see_ads_capability && is_user_logged_in() && current_user_can( $see_ads_capability ) ) {
-			return false;
-		}
-
-		// check bots if option is enabled.
-		if ( ( isset( $options['block-bots'] ) && $options['block-bots']
-			&& ! $this->is_cache_bot() && $this->is_bot() ) ) {
-			return false;
-		}
-
 		return true;
 	}
 
@@ -614,14 +632,20 @@ class Advanced_Ads {
 	 */
 	public function is_cache_bot() {
 		if ( isset( $_SERVER['HTTP_USER_AGENT'] ) && '' !== $_SERVER['HTTP_USER_AGENT'] ) {
+			$current = sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) );
 			// WP Rocket.
-			if ( false !== strpos( sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ), 'wprocketbot' ) ) {
+			if ( false !== strpos( $current, 'wprocketbot' ) ) {
 				return true;
 			}
 
 			// WP Super Cache.
 			$wp_useragent = apply_filters( 'http_headers_useragent', 'WordPress/' . get_bloginfo( 'version' ) . '; ' . get_bloginfo( 'url' ) );
-			if ( sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ) === $wp_useragent ) {
+			if ( $current === $wp_useragent ) {
+				return true;
+			}
+
+			// LiteSpeed Cache: `lscache_runner` and `lscache_walker` user agents.
+			if ( false !== strpos( $current, 'lscache_' ) ) {
 				return true;
 			}
 		}
@@ -781,11 +805,15 @@ class Advanced_Ads {
 	 */
 	public function noindex_attachment_images() {
 		global $post;
-		// if the image was not attached to any post.
-		if ( is_attachment() && is_object( $post ) && isset( $post->post_parent ) && 0 === $post->post_parent ) {
-			// if at least one ad contains the image.
-			if ( get_post_meta( get_the_ID(), '_advanced-ads_parent_id', true ) > 0 ) {
-				echo '<meta name="robots" content="noindex, nofollow" />';
+
+		if ( is_attachment() && is_object( $post ) && isset( $post->post_parent ) ) {
+			$post_parent = get_post( $post->post_parent );
+			$parent_is_ad = $post_parent && self::POST_TYPE_SLUG == $post_parent->post_type;
+			// if the image was not attached to any post and if at least one image ad contains the image. Needed for backward compatibility.
+			$parent_is_image_ad = ( empty( $post->post_parent ) && 0 < get_post_meta( get_the_ID(), '_advanced-ads_parent_id', true ) );
+
+			if ( $parent_is_ad || $parent_is_image_ad ) {
+				echo '<meta name="robots" content="noindex,nofollow" />';
 			}
 		}
 	}
@@ -796,7 +824,7 @@ class Advanced_Ads {
 	 * @since 1.10.8
 	 */
 	public function custom_header_code(){
-		if( current_user_can( Advanced_Ads_Plugin::user_cap( 'advanced_ads_edit_ads') ) ){
+		if ( ! defined( 'ADVANCED_ADS_DISABLE_EDIT_BAR' ) && current_user_can( Advanced_Ads_Plugin::user_cap( 'advanced_ads_edit_ads') ) ){
 			?><style>
 			    div.advads-edit-bar{position:relative;top:0;left:0;height:0;display:none;z-index:10000;animation:advads-edit-appear 2s linear 1;}
                 @keyframes advads-edit-appear {  

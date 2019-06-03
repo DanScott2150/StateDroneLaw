@@ -65,6 +65,7 @@ class wfIssues {
 		'timelimit' => wfIssues::SEVERITY_HIGH,
 		'checkHowGetIPs' => wfIssues::SEVERITY_HIGH,
 		'diskSpace' => wfIssues::SEVERITY_HIGH,
+		'wafStatus' => wfIssues::SEVERITY_CRITICAL,
 		'configReadable' => wfIssues::SEVERITY_CRITICAL,
 		'wfPluginVulnerable' => wfIssues::SEVERITY_HIGH,
 		'coreUnknown' => wfIssues::SEVERITY_HIGH,
@@ -84,7 +85,7 @@ class wfIssues {
 	);
 
 	public static function validIssueTypes() {
-		return array('checkHowGetIPs', 'checkSpamIP', 'commentBadURL', 'configReadable', 'coreUnknown', 'database', 'diskSpace', 'dnsChange', 'easyPassword', 'file', 'geoipSupport', 'knownfile', 'optionBadURL', 'postBadTitle', 'postBadURL', 'publiclyAccessible', 'spamvertizeCheck', 'suspiciousAdminUsers', 'timelimit', 'wfPluginAbandoned', 'wfPluginRemoved', 'wfPluginUpgrade', 'wfPluginVulnerable', 'wfThemeUpgrade', 'wfUpgrade', 'wpscan_directoryList', 'wpscan_fullPathDiscl');
+		return array('checkHowGetIPs', 'checkSpamIP', 'commentBadURL', 'configReadable', 'coreUnknown', 'database', 'diskSpace', 'wafStatus', 'dnsChange', 'easyPassword', 'file', 'geoipSupport', 'knownfile', 'optionBadURL', 'postBadTitle', 'postBadURL', 'publiclyAccessible', 'spamvertizeCheck', 'suspiciousAdminUsers', 'timelimit', 'wfPluginAbandoned', 'wfPluginRemoved', 'wfPluginUpgrade', 'wfPluginVulnerable', 'wfThemeUpgrade', 'wfUpgrade', 'wpscan_directoryList', 'wpscan_fullPathDiscl');
 	}
 	
 	public static function statusPrep(){
@@ -376,26 +377,14 @@ class wfIssues {
 	public function deleteNew($types = null) {
 		if (!is_array($types)) {
 			if (wfCentral::isConnected()) {
-				$result = $this->getDB()->querySelect("SELECT id FROM {$this->issuesTable} WHERE status = 'new'");
-				$issues = array();
-				foreach ($result as $row) {
-					$issues[] = $row['id'];
-				}
-				wfCentral::deleteIssues($issues);
+				wfCentral::deleteNewIssues();
 			}
 
 			$this->getDB()->queryWrite("DELETE FROM {$this->issuesTable} WHERE status = 'new'");
 		}
 		else {
 			if (wfCentral::isConnected()) {
-				$query = "SELECT id FROM {$this->issuesTable} WHERE status = 'new' AND type IN (" . implode(',', array_fill(0, count($types), "'%s'")) . ")";
-				array_unshift($types, $query);
-				$result = call_user_func_array(array($this->getDB(), 'querySelect'), $types);
-				$issues = array();
-				foreach ($result as $row) {
-					$issues[] = $row['id'];
-				}
-				wfCentral::deleteIssues($issues);
+				wfCentral::deleteIssueTypes($types, 'new');
 			}
 
 			$query = "DELETE FROM {$this->issuesTable} WHERE status = 'new' AND type IN (" . implode(',', array_fill(0, count($types), "'%s'")) . ")";

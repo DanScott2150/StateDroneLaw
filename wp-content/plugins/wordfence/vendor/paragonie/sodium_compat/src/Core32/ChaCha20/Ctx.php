@@ -10,7 +10,7 @@ if (class_exists('ParagonIE_Sodium_Core_ChaCha20_Ctx', false)) {
 class ParagonIE_Sodium_Core32_ChaCha20_Ctx extends ParagonIE_Sodium_Core32_Util implements ArrayAccess
 {
     /**
-     * @var SplFixedArray<int, ParagonIE_Sodium_Core32_Int32>
+     * @var SplFixedArray internally, <int, ParagonIE_Sodium_Core32_Int32>
      */
     protected $container;
 
@@ -89,7 +89,7 @@ class ParagonIE_Sodium_Core32_ChaCha20_Ctx extends ParagonIE_Sodium_Core32_Util 
     /**
      * @internal You should not use this directly from another application
      *
-     * @param mixed $offset
+     * @param int $offset
      * @return bool
      * @psalm-suppress MixedArrayOffset
      */
@@ -101,7 +101,7 @@ class ParagonIE_Sodium_Core32_ChaCha20_Ctx extends ParagonIE_Sodium_Core32_Util 
     /**
      * @internal You should not use this directly from another application
      *
-     * @param mixed $offset
+     * @param int $offset
      * @return void
      * @psalm-suppress MixedArrayOffset
      */
@@ -113,7 +113,7 @@ class ParagonIE_Sodium_Core32_ChaCha20_Ctx extends ParagonIE_Sodium_Core32_Util 
     /**
      * @internal You should not use this directly from another application
      *
-     * @param mixed $offset
+     * @param int $offset
      * @return mixed|null
      * @psalm-suppress MixedArrayOffset
      */

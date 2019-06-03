@@ -59,6 +59,50 @@ jQuery( document ).ready(function () {
 	    });
 
 	});
+	/**
+	 * Functions for Ad Health Notifications in the backend
+	 */
+	// hide button (adds item to "ignore" list)
+	jQuery(document).on('click', '.advads-ad-health-notice-hide', function(){
+	    var notice = jQuery(this).parents('li');
+	    if( notice.attr('data-notice') === undefined) return;
+	    // var list = notice.parent( 'ul' );
+	    var remove = jQuery( this ).hasClass( 'remove' );
+	    
+	    // fix height to prevent the box from going smaller first, then show the "show" link and grow again
+        var notice_box = jQuery( '#advads_overview_notices' );
+	    notice_box.css( 'height', notice_box.height() + 'px' );
+
+	    var query = {
+		action: 'advads-ad-health-notice-hide',
+		notice: notice.attr('data-notice'),
+		nonce: advadsglobal.ajax_nonce
+	    };
+	    // fade out first or remove, so users can’t click twice
+	    if( remove ){
+		notice.remove();
+	    } else {
+		notice.hide();
+	    }
+	    // show loader
+        notice_box.find('.advads-loader' ).show();
+	    advads_ad_health_maybe_remove_list();
+	    // send query
+	    jQuery.post(ajaxurl, query, function (r) {
+		    // update number in menu
+		    advads_ad_health_reload_number_in_menu();
+		    // update show button
+		    advads_ad_health_reload_show_link();
+		    // remove the fixed height
+		    jQuery( '#advads_overview_notices' ).css( 'height', '' );
+		    // remove loader
+            notice_box.find('.advads-loader' ).hide();
+	    });
+	});
+	// show all hidden notices
+	jQuery(document).on('click', '.adsvads-ad-health-notices-show-hidden', function(){
+		advads_ad_health_show_hidden();
+	});
 	
 	/**
 	 * DEACTIVATION FEEDBACK FORM
@@ -186,4 +230,109 @@ function advads_load_dashboard_rss_widget_content(){
 
 		}
 	});
+}
+
+/**
+ * Ad Health Notices in backend
+ */
+// display notices list (deprecated because we load it without AJAX now)
+function advads_display_ad_health_notices(){
+
+	var query = {
+	    action: 'advads-ad-health-notice-display',
+	    nonce: advadsglobal.ajax_nonce
+	};
+	
+	var widget = jQuery( '#advads_overview_notices .main' );
+	
+	// add loader icon to the widget
+	widget.html( '<span class="advads-loader"></span>' );
+	// send query
+	jQuery.post(ajaxurl, query, function (r) {
+		widget.html( r );
+		
+		// update number in menu
+		advads_ad_health_reload_number_in_menu();
+		// update list headlines
+		advads_ad_health_maybe_remove_list();
+		
+		// remove widget, if return is empty
+		if( r === '' ){
+			jQuery( '#advads_overview_notices' ).remove();
+		}
+	});
+}
+// push a notice to the queue
+function advads_push_notice( key, attr = '' ){
+
+	var query = {
+	    action: 'advads-ad-health-notice-push',
+	    key: key,
+	    attr: attr,
+	    nonce: advadsglobal.ajax_nonce
+	};
+	// send query
+	jQuery.post(ajaxurl, query, function (r) {});
+}
+// show notices of a given type again
+function advads_ad_health_show_hidden(){
+    var notice_box = jQuery( '#advads__overview_notices');
+    var query = {
+        action: 'advads-ad-health-notice-unignore',
+        nonce: advadsglobal.ajax_nonce
+    };
+    // show all hidden
+    jQuery( document ).find( '#advads_overview_notices .advads-ad-health-notices > li:hidden' ).show();
+    // show loader
+    notice_box.find('.advads-loader' ).show();
+    // update the button
+    advads_ad_health_reload_show_link();
+    advads_ad_health_maybe_remove_list();
+    // send query
+    jQuery.post(ajaxurl, query, function (r) {
+        // update issue count
+        advads_ad_health_reload_number_in_menu();
+        // hide loader
+        notice_box.find('.advads-loader' ).hide();
+    });
+};
+// hide list fragments if last item was hidden/removed
+function advads_ad_health_maybe_remove_list(){
+	// get all lists
+    	var lists = jQuery( document ).find( '#advads_overview_notices .advads-ad-health-notices' );
+
+	// check each list separately
+	lists.each( function( index ) { 
+		var list = jQuery( this );
+		// check if there are visible items in the list
+		if( list.find( 'li:visible' ).length ){
+			// show parent headline
+			list.prev( 'h3' ).show();
+		} else {
+			// hide parent headline
+			list.prev( 'h3' ).hide();
+
+		}
+	});
+
+}
+// reload number of notices shown in the sidebar based on element in the problems list
+function advads_ad_health_reload_number_in_menu(){
+	// get number of notices
+	var number = jQuery( document ).find( '#advads_overview_notices .advads-ad-health-notices > li:visible' ).length;
+	jQuery( '#toplevel_page_advanced-ads .update-count').html( number );
+}
+// update show X issues link – number and visibility
+function advads_ad_health_reload_show_link(){
+	// get number of invisible elements
+	var number = jQuery( document ).find( '#advads_overview_notices .advads-ad-health-notices > li:hidden' ).length;
+	var show_link = jQuery( '.adsvads-ad-health-notices-show-hidden' );
+	// update number in the link
+	jQuery( '.adsvads-ad-health-notices-show-hidden span.count' ).html( number );
+	// hide of show, depending on number
+	if( 0 === number ){
+		show_link.hide();
+	} else {
+		show_link.show();
+	}
 }

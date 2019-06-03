@@ -23,6 +23,12 @@ class Advanced_Ads_Overview_Widgets_Callbacks {
 				'hook'        => 'advanced-ads-overview-below-support',
 			)
 		);
+		
+		// show errors
+		if( Advanced_Ads_Ad_Health_Notices::notices_enabled()
+                && count( Advanced_Ads_Ad_Health_Notices::get_instance()->displayed_notices ) ){
+		        self::add_meta_box('advads_overview_notices', false, 'full', 'render_notices' );
+        }
 
 		self::add_meta_box('advads_overview_news', __( 'Next steps', 'advanced-ads' ), 'left',
 		    'render_next_steps');
@@ -48,6 +54,21 @@ class Advanced_Ads_Overview_Widgets_Callbacks {
 		include( ADVADS_BASE_PATH . 'admin/views/overview-widget.php' );
 	    
 	}
+	
+	/**
+	 * render Ad Health notices widget
+	 * 
+	 * @since 1.11.x
+	 */
+	public static function render_notices(){
+
+		/*?><span class="advads-loader"></span>
+		<script>jQuery( document ).ready( function(){ advads_display_ad_health_notices(); });</script><?php*/
+		Advanced_Ads_Ad_Health_Notices::get_instance()->render_widget();
+		?><script>jQuery( document ).ready( function(){ advads_ad_health_maybe_remove_list(); });</script><?php
+		
+	}
+	
 
 	/**
 	 * render next steps widget
@@ -134,7 +155,16 @@ class Advanced_Ads_Overview_Widgets_Callbacks {
             <li><?php printf( __( '<a href="%s" target="_blank">FAQ and Support</a>', 'advanced-ads' ), ADVADS_URL . 'support/#utm_source=advanced-ads&utm_medium=link&utm_campaign=overview-support' ); ?></li>
             <li><?php printf( __( 'Thank the developer with a &#9733;&#9733;&#9733;&#9733;&#9733; review on <a href="%s" target="_blank">wordpress.org</a>', 'advanced-ads' ), 'https://wordpress.org/support/plugin/advanced-ads/reviews/?filter=5#new-post' ); ?></li>
         </ul><?php
-	
+
+		$ignored_count = count( Advanced_Ads_Ad_Health_Notices::get_instance()->ignore );
+		$displayed_count = count( Advanced_Ads_Ad_Health_Notices::get_instance()->displayed_notices );
+		if( !$displayed_count && $ignored_count ){
+			// translators: %s includes a number and markup like <span class="count">6</span>.
+			?><p><span class="dashicons dashicons-warning"></span>&nbsp;<a href="<?php echo wp_nonce_url( admin_url( 'admin.php?page=advanced-ads&advads-show-hidden-notices=true' ), 'advanced-ads-show-hidden-notices', 'advads_nonce' ); ?>"><?php
+			printf( __( 'Show %s hidden notices', 'advanced-ads' ), $ignored_count );
+				?></a></p><?php
+		}
+
 	do_action( 'advanced-ads-overview-below-support' );
 	
 	}

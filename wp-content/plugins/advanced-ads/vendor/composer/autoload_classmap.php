@@ -12,6 +12,7 @@ return array(
     'Advanced_Ads_Ad' => $baseDir . '/classes/ad.php',
     'Advanced_Ads_Ad_Ajax_Callbacks' => $baseDir . '/classes/ad_ajax_callbacks.php',
     'Advanced_Ads_Ad_Debug' => $baseDir . '/classes/ad-debug.php',
+    'Advanced_Ads_Ad_Health_Notices' => $baseDir . '/classes/ad-health-notices.php',
     'Advanced_Ads_Ad_List_Filters' => $baseDir . '/admin/includes/class-list-filters.php',
     'Advanced_Ads_Ad_Type_Abstract' => $baseDir . '/classes/ad_type_abstract.php',
     'Advanced_Ads_Ad_Type_Content' => $baseDir . '/classes/ad_type_content.php',

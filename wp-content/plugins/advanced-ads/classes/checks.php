@@ -10,7 +10,7 @@ class Advanced_Ads_Checks {
 	/**
 	 * Minimum required PHP version of Advanced Ads
 	 */
-	const MINIMUM_PHP_VERSION = 5.4;
+	const MINIMUM_PHP_VERSION = '5.6.20';
     
     
 	/**
@@ -21,9 +21,9 @@ class Advanced_Ads_Checks {
 	}
 
 	/**
-	 * php version minimum 5.4
+	 * PHP version minimum
 	 *
-	 * @return bool true if 5.4 and higher
+	 * @return bool true if uses the minimum PHP version or higher
 	 */
 	 public static function php_version_minimum(){
 
@@ -72,26 +72,6 @@ class Advanced_Ads_Checks {
 	 }
 
 	 /**
-	  * any plugin updates available
-	  *
-	  * @return bool true if plugin updates are available
-	  */
-	 public static function plugin_updates_available(){
-		
-		// iterate throught the plugins and check if any of them is ours (i.e., starts with the string "advanced-ads")
-		$update_plugins = get_site_transient( 'update_plugins' );
-		if ( ! empty( $update_plugins->response ) ) {
-			foreach( $update_plugins->response as $_key => $_responsive ){
-				if( 0 === strpos( $_key, 'advanced-ads') ){
-					return true; 
-				}
-			}
-		}
-
-		return false;
-	 }
-
-	 /**
 	  * check if license keys are missing or invalid or expired
 	  *
 	  * @since 1.6.6
@@ -104,6 +84,7 @@ class Advanced_Ads_Checks {
 	    $add_ons = apply_filters( 'advanced-ads-add-ons', array() );
 	    
 	    if( $add_ons === array() ) {
+		    Advanced_Ads_Ad_Health_Notices::get_instance()->remove( 'license_invalid' );
 		    return false;
 	    }
 
@@ -132,6 +113,8 @@ class Advanced_Ads_Checks {
 		    }
 	    }
 
+	    // remove notice, if one is given
+	    Advanced_Ads_Ad_Health_Notices::get_instance()->remove( 'license_invalid' );
 	    return false;
 	}
 	
@@ -144,7 +127,7 @@ class Advanced_Ads_Checks {
 	 */
 	public static function active_autoptimize(){
 
-		if( defined( 'AUTOPTIMIZE_CACHE_DIR' ) ){
+		if( defined( 'AUTOPTIMIZE_PLUGIN_VERSION' ) ){
 			return true;
 		}
 
@@ -176,6 +159,30 @@ class Advanced_Ads_Checks {
     	    }
 	    }
 	    return false;
+	}
+
+	/**
+	 * Any AMP plugin enabled
+	 *
+	 * @return bool true if AMP plugin is installed
+	 */
+	public static function active_amp_plugin(){
+		// Accelerated Mobile Pages
+		if( function_exists( 'ampforwp_is_amp_endpoint' ) ){
+			return true;
+		}
+
+		// AMP plugin
+		if( function_exists( 'is_amp_endpoint' ) ){
+			return true;
+		}
+
+		// other plugins
+		if ( function_exists( 'is_wp_amp' ) ){
+			return true;
+		}
+
+		return false;
 	}
 	
 	/**
@@ -273,6 +280,7 @@ class Advanced_Ads_Checks {
 			'ADVANCED_ADS_DISABLE_SHORTCODE_BUTTON',
 			'ADVANCED_ADS_DISALLOW_PHP',
 			'ADVANCED_ADS_ENABLE_REVISIONS',
+			'ADVANCED_ADS_GEO_TEST_IP',
 			'ADVANCED_ADS_PRO_CUSTOM_POSITION_MOVE_INTO_HIDDEN',
 			'ADVANCED_ADS_PRO_PAGE_IMPR_EXDAYS',
 			'ADVANCED_ADS_PRO_REFERRER_EXDAYS',
@@ -291,6 +299,30 @@ class Advanced_Ads_Checks {
 		}
 		return $result;
 	}
+
+
+	/**
+	 * WP Engine hosting detected
+	 *
+	 * @return bool true if site is hosted by WP Engine
+	 */
+	public static function wp_engine_hosting(){
+		if( defined( 'WPE_APIKEY' ) ){
+			return true;
+		}
+
+		return false;
+	}
+	
+	/**
+	 * Notice for Adblocker module if assets have expired
+	 */
+	public static function assets_expired() {
+		$plugin_options = Advanced_Ads_Plugin::get_instance()->options();
+		$adblocker_options = Advanced_Ads_Ad_Blocker::get_instance()->options();
+		
+		return ( ! empty ( $plugin_options['use-adblocker'] ) && empty ( $adblocker_options['module_can_work'] ) );
+	}
 	
 	/**
 	 * check for potential jQuery errors
@@ -299,12 +331,11 @@ class Advanced_Ads_Checks {
 	 */
 	public static function jquery_ui_conflict(){
 	    ?>
-	    <div id="advads-jqueryui-conflict-message" style="display:none;" class="message error"><p><?php printf( __( 'Possible conflict between jQueryUI library, used by Advanced Ads and other libraries (probably <a href="%s">Twitter Bootstrap</a>). This might lead to misfortunate formats in forms, but should not damage features.', 'advanced-ads' ), 'http://getbootstrap.com/javascript/#js-noconflict' ); ?></p></div>
 	    <script>// string from jquery-ui source code
 		jQuery(document).ready(function(){
 		    var needle = 'var g="string"==typeof f,h=c.call(arguments,1)';
 		    if ( jQuery.fn.button.toString().indexOf( needle ) === -1 || jQuery.fn.tooltip.toString().indexOf( needle ) === -1 ) {
-			    jQuery( '#advads-jqueryui-conflict-message' ).show();
+			    advads_push_notice( 'jquery_ui_conflict' );
 		    }
 		});
 	    </script><?php
