@@ -3,57 +3,46 @@
  * Front page
  * @package StateDroneLaw
  *
- *
  * Front Page for StateDroneLaw.com
- * Version: 20180601
+ * Version: 20190603
  */
 
 get_header(); ?>
 
-<div id="jumbo-wrapper">
-
 <!-- Jumbotron -->
-    <div class="jumbotron jumbotron-fluid text-center p-0 m-0" id="frontpage-jumbotron">
-      <div class="container-fluid p-0">
-        <div class="frontpage-overlay"> <!-- opacity layer to darken background image, make text more readable -->
-          <div class="frontpage-search-content">
+<div class="jumbotron jumbotron-fluid text-center p-0 m-0" id="frontpage-jumbotron">
+  <div class="frontpage-overlay"> <!-- opacity layer to darken background image, make text more readable -->
+    <div class="frontpage-search-content">
+      <h1>Search Drone Laws by State</h1>
 
-            <h1>Search Drone Laws by State</h1>
+        <div class="frontpage-search-box">
+          <div class="search-wrapper">
+            <div id="svg-magnifier">
+              <svg version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink" x="0px" y="0px" width="512px" height="512px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
+                <path id="magnifier-2-icon" d="M460.355,421.59L353.844,315.078c20.041-27.553,31.885-61.437,31.885-98.037
+                    C385.729,124.934,310.793,50,218.686,50C126.58,50,51.645,124.934,51.645,217.041c0,92.106,74.936,167.041,167.041,167.041
+                    c34.912,0,67.352-10.773,94.184-29.158L419.945,462L460.355,421.59z M100.631,217.041c0-65.096,52.959-118.056,118.055-118.056
+                    c65.098,0,118.057,52.959,118.057,118.056c0,65.096-52.959,118.056-118.057,118.056C153.59,335.097,100.631,282.137,100.631,217.041
+                    z">
+                </path>
+              </svg>
+            </div> <!-- #svg_magnifier -->
 
-            <div class="frontpage-search-box">
-              <div class="search-wrapper">
-                <div id="search-icon">
-                  <div id="svg-magnifier">
-                        <svg version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink" x="0px" y="0px" width="512px" height="512px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
-          								<path id="magnifier-2-icon" d="M460.355,421.59L353.844,315.078c20.041-27.553,31.885-61.437,31.885-98.037
-          										C385.729,124.934,310.793,50,218.686,50C126.58,50,51.645,124.934,51.645,217.041c0,92.106,74.936,167.041,167.041,167.041
-          										c34.912,0,67.352-10.773,94.184-29.158L419.945,462L460.355,421.59z M100.631,217.041c0-65.096,52.959-118.056,118.055-118.056
-          										c65.098,0,118.057,52.959,118.057,118.056c0,65.096-52.959,118.056-118.057,118.056C153.59,335.097,100.631,282.137,100.631,217.041
-          										z">
-                          </path>
-                        </svg>
-                  </div> <!-- #svg_magnifier -->
-                </div> <!-- search-icon -->
+            <!-- search funtion currently a jQuery autocomplete function: ./js/autocomplete.js -->
+            <input id="tags" placeholder="Enter a State...">
 
-                <!-- search funtion currently a jQuery autocomplete function -->
-                <!-- source JS: js/autocomplete.js -->
-                <input id="tags" placeholder="Enter a State...">
+          </div> <!-- search-wrapper -->
+        </div> <!-- frontpage-search-box -->
 
-              </div> <!-- search-wrapper -->
-            </div> <!-- frontpage-search-box -->
+      <p class="my-3">
+        Drone laws in the United States are constantly evolving on a state-by-state basis.
+          <br/>
+        Stay up to date on the laws applicable to you!
+      </p>
 
-        <p class="my-3">
-          Drone laws in the United States are constantly evolving on a state-by-state basis.
-           <br/>
-          Stay up to date on the laws applicable to you!
-        </p>
-
-        </div> <!-- .frontpage-search-content -->
-      </div> <!-- .frontpage-overlay -->
-    </div> <!-- container -->
-  </div> <!-- .jumbotron -->
-</div> <!-- jumbotron wrapper -->
-
+    </div> <!-- .frontpage-search-content -->
+  </div> <!-- .frontpage-overlay -->
+</div> <!-- .jumbotron -->
 <!-- Jumbotron END -->
 
 <!-- Start Page Content -->
@@ -130,16 +119,7 @@ get_header(); ?>
                       <p class="text-justify mb-3">If your drone weighs more than 0.55 pounds but less than 55 pounds, you can complete your registration online. Registration costs $5 and is valid for 3 years. <a href="https://faadronezone.faa.gov">Click here to visit FAA.gov and register your drone with the FAA</a></p>
                       <p class="mb-3"><b><i>Please note that registration can be completed directly on the official FAA website for a cost of $5. <u>Beware of scam websites</u> offering to register your drone for a higher price! </b></i></p>
 
-
-
                   </div> <!-- col -->
-
-                  <!-- <div class="col-12">
-                    <button class="frontpage-faa-button rounded py-3 px-5 font-weight-bold">
-                      Want to be notified when FAA regulations change?<br/><br/>
-                      Sign up for FREE email alerts today!
-                    </button>
-                  </div> -->
                 </div> <!-- row -->
 
               </div> <!--container [[[Do We Need this container?]]] -->
@@ -160,45 +140,52 @@ get_header(); ?>
 <!-- CountUp boxes -->
                 <div class="row">
                   <div class="col">
-
                     <div class="frontpage-countbox mt-3">
-                      <!-- Countup functionality, currently using jQuery countTo() function,
-                            included in js/jquery.countTo.js, with actual function called in footer.php -->
-                      <!-- Version I used to use via WordPress plugin was a lot smoother, and wouldn't
-                            start counting until user scrolled to that point on the page. Look
-                            into doing that here at some point. For now this works though -->
                       <h5>U.S. Drone Law Statistics at a glance...</h5>
+
+                      <!-- script src: ./js/countup.js -->
+                      
                       <ul>
                         <li>
                           <span class="fa fa-globe fa-3x"></span>
                           <br/>U.S.
                           <br/>States
-                          <div id="counter-1" class="frontpage-counter" data-from="0" data-to="50" data-speed="2500">
-                          50</div>
+                          <div 
+                            id="countup-states"
+                            class="frontpage-counter"
+                            data-target="50">
+                            <?php echo do_shortcode('[currentlaws_count]') ?>
+                          </div>
                         </li>
                         <li>
                           <span class="fa fa-gavel fa-3x"></span>
                           <br/>Current
                           <br/>Laws
-                          <?php echo
-                          '<div class="frontpage-counter">' . do_shortcode('[currentlaws_count]') . '</div>'
-                          ?>
+                          <div 
+                            id="countup-current" 
+                            class="frontpage-counter" 
+                            data-target="<?php echo do_shortcode('[currentlaws_count]')?>">
+                          <?php echo do_shortcode('[currentlaws_count]') ?>
                          </li>
                         <li>
                           <span class="fa fa-hourglass-half fa-3x"></span>
                           <br/>Pending
                           <br/>Laws
-                          <?php echo
-                          '<div class="frontpage-counter">' . do_shortcode('[pendinglaws_count]') . '</div>'
-                          ?>
+                          <div 
+                            id="countup-pending" 
+                            class="frontpage-counter" 
+                            data-target="<?php echo do_shortcode('[pendinglaws_count]')?>">
+                          <?php echo do_shortcode('[pendinglaws_count]') ?>
                         </li>
                         <li>
                           <span class="fa fa-map-pin fa-3x"></span>
                           <br/>Municipal
                           <br/>Laws
-                          <?php echo
-                          '<div class="frontpage-counter">' . do_shortcode('[municipallaws_count]') . '</div>'
-                          ?>
+                           <div 
+                            id="countup-municipal" 
+                            class="frontpage-counter" 
+                            data-target="<?php echo do_shortcode('[municipallaws_count]')?>">
+                          <?php echo do_shortcode('[municipallaws_count]') ?>
                         </li>
                       </ul>
                     </div> <!-- frontpage-countbox -->
@@ -219,29 +206,6 @@ get_header(); ?>
                     </p>
                   </div>  <!-- col -->
                 </div> <!-- row -->
-
-<!--
-                <div class="row mx-auto">
-                  <div class="frontpage-statebox text-align-center p-3 mx-auto mt-3">
-                    <h5>Select your state to view the laws applicable to you!</h5>
-                      <form>
-                        <div class="row no-gutters">
-
-                          <div class="input-group">
-                            <select class="custom-select" name="Select your state">
-                              <option value="alabama">Alabama</option>
-                              <option value="alaska">Alaska</option>
-                              <option value="california">California</option>
-                            </select>
-                            <span class="input-group-btn">
-                              <button class="h-100">Go!</button>
-                            </span>
-                          </div>
-                        </div>
-                      </form>
-                  </div>
-                </div>
--->
 
                 <div class="row mt-3">
                   <div class="col">

@@ -48,15 +48,13 @@
 <!-- End of Facebook Plugin -->
 
 <div id="page" class="site">
-	<a class="skip-link screen-reader-text" href="#content"><?php esc_html_e( 'Skip to content', 'statedronelaw	' ); ?></a>
+	<a class="skip-link screen-reader-text" href="#content">
+    <?php esc_html_e( 'Skip to content', 'statedronelaw	' ); ?>
+  </a>
 
-
-<!-- Header -->
-<!-- Future project: Add WordPress Customizer support,
-				i.e. ability to change logo, menu, etc. via WP CMS rather than hardcode -->
-
+<!-- Nav Sticky Header -->
+<!-- Customizable via WordPress CMS -->
 	<header id="masthead" class="site-header">
-
 		<nav class="navbar navbar-expand-md navbar-dark fixed-top" id="navScrollWrapper">
 			<div class="container">
 		  	<h1 class="site-title"><a href="/">StateDroneLaw</a></h1>
@@ -66,31 +64,24 @@
 		    		<span class="navbar-toggler-icon"></span>
 		  		</button>
 
-		  	<div class="collapse navbar-collapse" id="navbarSupportedContent">
-		    	<ul class="navbar-nav ml-auto">
-		      	<li class="nav-item">
-		        	<a class="nav-link" href="/blog">Blog</a>
-		      	</li>
-						<li class="nav-item">
-							<a class="nav-link" href="/recent">Recent</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="/browse">Browse</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="/subscribe">Subscribe</a>
-						</li>
-		    	</ul>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-		</div> <!-- navbar-collapse -->
-	</div> <!-- nav-toggle-wrapper -->
-</div> <!-- container -->
+            <?php wp_nav_menu( 
+                    array( 
+                      'theme_location' => 'header_nav_menu',
+                      'container' => false,
+                      'menu_class' => 'navbar-nav ml-auto'
+                      ) ); ?>
+          
+		      </div> <!-- navbar-collapse -->
+	      </div> <!-- nav-toggle-wrapper -->
+      </div> <!-- container -->
 		</nav>
+	</header>
 
+<!-- spacer to solve issue of gray background briefly appearing upon window scroll, 
+      due to navbar opacity. This essentially pushes the rest of the page down to give 
+      space to initial navbar. There's definitely a better way to do this. -->
+<div id="spacer"></div> 
 
-
-	</header><!-- #masthead -->
-
-<div id="spacer"></div> <!-- spacer to solve issue of gray background briefly appearing upon window scroll, due to navbar opacity. This essentially pushes the rest of the page down to give space to initial navbar. There's definitely a better way to do this. -->
-
-	<div id="content" class="site-content">
+<div id="content" class="site-content">

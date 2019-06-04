@@ -31,6 +31,19 @@ nav ul li:last-child{
   border-right: 0;
 }
 
+#menu-header-nav .menu-item{
+list-style: none;
+
+}
+
+#menu-header-nav .menu-item a {
+  color: rgba(255, 255, 255, 0.5);
+  display: block;
+      padding-right: .5rem;
+    padding-left: .5rem;
+
+}
+
 // When user scrolls down, Nav bar sticks to top but shrinks
 .nav_shrink{
   height: 40px;

@@ -33,19 +33,6 @@ get_header(); ?>
 </div>
 <!-- END Promobox -->
 
-<style>
-  .recent_post {border-top:1px solid #666; padding:10px; margin: 0 5px;}
-  .recent_meta {margin-bottom:10px; background: #D3D3D3; padding: 10px;}
-  .recent_meta p{margin-bottom:0;}
-  .recent_date {display:inline-block; float:right; text-align: right; width: 40%;}
-  .recent_state {font-size: 1.2em; font-weight: bold;}
-  .recent_status {font-size: 1em;}
-  /* .recent_topics {font-size: 0.9em; font-style: italic;} */
-  .recent_content {line-height: 1.5; padding: 0px 10px;}
-  .recent_content p{margin-bottom:20px;}
-</style>
-
-
 
 <!-- Start Page Content -->
 
@@ -93,17 +80,6 @@ get_header(); ?>
 
       ?>
 
-<style>
-  p.recent_status{
-    margin-bottom: 10px;
-    font-weight: bold;
-  }
-
-  .blog_content ul {
-    /* list-style-type: none; */
-    margin-left: 20px;
-  }
-</style>
 
       <div class="blog_post">
         <div class="blog_meta">

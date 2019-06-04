@@ -1,84 +1,39 @@
 <?php
-/**
- * The template for displaying the footer
- *
- * Contains the closing of the #content div and all content after.
- *
- * @link https://-eloper.wordpress.org/themes/basics/template-files/#template-partials
- *
- * @package StateDroneLaw
- */
-
+  /** @package StateDroneLaw */
 ?>
 
 </div> <!-- .container(?) --> <!-- should move this to main file, match to opening tag ?? -->
 </div><!-- #content -->
 
+<footer id="colophon" class="site-footer">
+  <div class="container-fluid pt-3">
 
-	<footer id="colophon" class="site-footer">
+<!-- Summary Legal Disclaimer - editable via WordPress Widgets -->
+  <?php if ( is_active_sidebar( 'footer-legal' ) ) : ?>
+    <div class="footer-legal">
+      <?php dynamic_sidebar( 'footer-legal' ); ?>
+    </div>
+  <?php endif; ?>
 
-		<div class="container-fluid pt-3">
-			<div class="footer-legal">
-				<p>Nothing on this website is considered legal advice. The information above may be inaccurate, outdated, or misrepresented.</p>
-				<p class="mt-1">Please review our complete legal disclaimer for further information.</p>
-			</div>
+<!-- Footer Nav Menu -->
+  <?php wp_nav_menu( 
+          array( 
+            'theme_location' => 'footer_nav_menu',
+            'container' => false,
+            'menu_class' => 'footernav'
+          )
+        ); 
+  ?>
 
-			<div class="row">
-				<nav class="footernav">
-					<ul class="mb-0">
-						<li>
-							<a href="/blog">Blog</a>
-						</li>
-						<li>
-							<a href="/recent">Recent</a>
-						</li>
-						<li>
-							<a href="/browse">Browse</a>
-						</li>
-						<li>
-							<a href="/subscribe">Subscribe</a>
-						</li>
-						<li>
-							<a href="/legal">Legal Discliamer</a>
-						</li>
-						<li>
-							<a href="/privacy">Privacy Policy</a>
-						</li>
-						<li>
-							<a href="/contact">Contact Us</a>
-						</li>
-					</ul>
-				</nav>
-			</div> <!-- row -->
+    <div class="site-info pb-3">
+      © <?php echo date("Y"); ?> StateDroneLaw. All Rights Reserved.
+    </div>
 
-			<div class="site-info pb-3">
-				© 2018 StateDroneLaw. All Rights Reserved.
-			</div>
-		</div> <!-- .container -->
-	</footer><!-- #colophon -->
+  </div> <!-- .container -->
+</footer><!-- #colophon -->
 
 </div><!-- #page -->
 
-
-	<script>
-		const headerElement = document.querySelector('#masthead nav');
-
-		window.onscroll = function(){
-			if(document.body.scrollTop > 50 || document.documentElement.scrollTop > 50){
-				headerElement.classList.add('nav_shrink');
-			} else {
-				headerElement.classList.remove('nav_shrink');
-			}
-    }
-    
-    // headerElement.onmouseover = function(){
-    //   headerElement.classList.remove('nav_shrink');
-    // }
-
-    // headerElement.onmouseleave = function(){
-    //   headerElement.classList.add('nav_shrink');
-    // }
-</script>
 
 <!-- Bootstrap and Popper include for dropdown -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -106,7 +61,6 @@
 <!-- <script type="text/javascript" src="/wp-content/themes/statedronelaw/assets/bgslider.js"></script> -->
 
 <?php wp_footer(); ?>
-
 
 </body>
 </html>
